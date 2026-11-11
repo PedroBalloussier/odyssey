@@ -164,6 +164,8 @@ header.top{grid-column:1/-1;display:flex;align-items:center;justify-content:spac
 .orig .orow small{display:block;font-style:italic;color:var(--ink-soft);font-size:12.5px}
 .orig .otrack{height:12px;border-bottom:1px solid var(--rule)}
 .orig .obar{height:12px;border:1px solid var(--sepia);background:repeating-linear-gradient(45deg,rgba(143,45,31,.75) 0 1.2px,transparent 1.2px 4px),#f6ead0}
+.orig .orow.hl>span:first-child{font-weight:600;color:var(--red)}
+.orig .orow.hl .obar{background:repeating-linear-gradient(45deg,#8f2d1f 0 2.4px,transparent 2.4px 4px),#f6ead0}
 .orig .ov{text-align:right;font-style:italic;color:var(--ink-soft);font-size:14px}
 .orig .orank{margin:4px 0 0;padding-left:22px}
 .orig .orank li{margin-bottom:3px}
@@ -210,7 +212,8 @@ body.modal-open header.top{position:relative;z-index:35}
 .welcome .intro{max-width:640px;margin:0 auto 22px;font-size:18px}
 .panorama{border:1px solid var(--rule);background:#faf3e2;margin:0 auto 20px;max-width:760px;padding:4px}
 .choose{font-family:var(--serif-sc);letter-spacing:2.5px;font-size:14px;color:var(--ink-soft);margin:6px 0 12px}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:0 0 6px}
+.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:0 0 6px}
+.cards .card b{font-size:24px}.cards .card span{font-size:13px}
 .card{border:1px solid var(--sepia);outline:1px solid var(--rule);outline-offset:3px;background:rgba(255,250,236,.75);padding:10px 10px 14px;text-align:center;transition:transform .2s, background .2s}
 .card:hover{transform:translateY(-3px);background:#fffaf0}
 .card .art{border:1px solid var(--rule);background:#faf3e2;margin-bottom:8px}
@@ -295,7 +298,10 @@ body.modal-open header.top{position:relative;z-index:35}
   .cartouche .dt{font-size:16px}
   .legend,.windbox{display:none}
   .imprint{font-size:11px;right:8px;bottom:6px}
-  .how,.cards{grid-template-columns:1fr}
+  .how{grid-template-columns:1fr}
+  .cards{grid-template-columns:repeat(2,1fr);gap:12px}
+  .cards .card:last-child:nth-child(odd){grid-column:1/-1;width:calc(50% - 6px);justify-self:center}
+  .card b{font-size:22px}
   .welcome{padding:56px 18px 22px}
   .modal{padding:24px 18px}
   .refs{padding:22px 0 0}.refs .rhead,.refs .rbody{padding-left:18px;padding-right:18px}
@@ -714,6 +720,110 @@ const A = (() => {
   V.junk = () => sea(102) + g(at(120, 102, 1.25, junk()), "m-bob") + birds(40, 24) + cloud(200, 30, .8);
   V.train = () => rail(112) + mountains([[6, 90], [50, 60], [90, 84], [140, 54], [190, 80], [234, 58]], 108, "hH") + g(at(80, 110, 1.2, locomotive()), "m-walk");
   V.steamer2 = V.steamer;
+
+  /* ---------- Greece ---------- */
+  const sheep = () => ht(`M0 -9c-1 -7 17 -8 18 -1c1 6 -17 7 -18 1z`, "hB") + p(`M0 -9c-1 -7 17 -8 18 -1c1 6 -17 7 -18 1zM18 -8l4 -3l2 3l-3 2zM3 -4v4M7 -3v3M13 -3v3M16 -4v4`);
+  const wheat = (x, y, h = 20) => p(`M${x} ${y}q1 ${-h / 2} ${-1} ${-h}`) + [0, 1, 2].map(i => p(`M${x - .5} ${y - h + 2 + i * 3}l-3 -3M${x - .5} ${y - h + 2 + i * 3}l3 -3`)).join("");
+  const hut = (x, y, w, h) => ht(`M${x} ${y}V${y - h}H${x + w}V${y}Z`, "hA") + p(`M${x} ${y}V${y - h}H${x + w}V${y}M${x - 3} ${y - h}L${x + w / 2} ${y - h - 12}L${x + w + 3} ${y - h}Z`) + ht(`M${x - 3} ${y - h}L${x + w / 2} ${y - h - 12}L${x + w + 3} ${y - h}Z`, "hH") + p(`M${x + w / 2 - 3} ${y}v-9h6v9`);
+  V.obsidian = () => sea(100) + mountains([[140, 100], [162, 76], [176, 62], [186, 60], [196, 70], [216, 88], [234, 100]], 100, "hA") +
+    p(`M176 62q5 -3 10 -2`) + birds(60, 26) + sun(30, 30, 7) + cloud(118, 34, .8) +
+    g(at(84, 100, 1.1, ht(`M-28 -4Q0 7 28 -4L24 -8H-24Z`, "hX") + p(`M-28 -4Q0 7 28 -4L24 -8H-24Z`) +
+      c(-10, -17, 2.6) + p(`M-10 -14.5L-9 -8M-9 -12L-1 -6M-1 -6L4 4`) + c(12, -17, 2.6) + p(`M12 -14.5L13 -8M13 -12L21 -6M21 -6L26 4`) +
+      ht(`M-20 -10l4 -4h6l-2 4z`, "hB") + p(`M-20 -10l4 -4h6l-2 4z`)), "m-bob") +
+    p(`M200 118l4 -6 5 6zM212 120l3 -5 4 5z`, "sf");
+  V.farm = () => ground() + mountains([[6, 92], [40, 70], [80, 88]], 112, "hH") + hut(30, 112, 26, 24) + hut(66, 112, 20, 18) +
+    [116, 124, 132, 140, 148, 156].map((x, i) => wheat(x, 112, 18 + (i % 2) * 4)).join("") +
+    at(178, 112, .9, sheep()) + at(200, 108, .75, sheep()) + at(98, 112, .9, person({ staff: 1 })) + sun(206, 30, 8) + birds(120, 26);
+  V.bull = () => ht(`M10 14H230V24H10ZM10 106H230V116H10Z`, "hR") + p(`M10 14H230V116H10ZM10 24H230M10 106H230`, "red") +
+    p(`M10 19q10 -4 20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0M10 111q10 -4 20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0`, "red") +
+    g(at(112, 98, 1.25, ht(`M-34 -20C-26 -30 8 -32 22 -26L32 -32L40 -30L36 -22L30 -14C18 -8 -22 -8 -32 -13Z`, "hR") +
+      p(`M-34 -20C-26 -30 8 -32 22 -26L32 -32L40 -30L36 -22L30 -14C18 -8 -22 -8 -32 -13Z`, "red") +
+      p(`M33 -31Q38 -42 46 -40M37 -31Q44 -38 50 -34M-34 -19Q-42 -16 -44 -6M-28 -12L-38 -2M-20 -10L-24 2M18 -11L26 -2M26 -14L38 -8`, "red") +
+      c(2, -50, 2.4, "red") + p(`M2 -47.5Q8 -42 14 -44M4 -46L-6 -40M10 -44L18 -50M-6 -40L-12 -42`, "red")), "m-walk") +
+    at(184, 98, 1, stick()) + at(44, 98, 1, stick());
+  V.liongate = () => ground() + [[6, 112, 60, 100], [180, 112, 234, 100]].map(([x1, y1, x2]) => {
+      let d = ""; for (let r = 0; r < 4; r++) { const yy = y1 - r * 16; let x = x1 + (r % 2) * 8; while (x < x2) { const w = 14 + ((x * 7 + r * 3) % 9); d += `M${x} ${yy}L${x + 1} ${yy - 15}L${Math.min(x + w, x2)} ${yy - 16}L${Math.min(x + w, x2) + 1} ${yy}`; x += w; } }
+      return ht(`M${x1} ${y1}V${y1 - 64}H${x2}V${y1}Z`, "hH") + p(d); }).join("") +
+    ht(`M66 112V44H88V112ZM152 112V44H174V112Z`, "hA") + p(`M66 112V44H88V112ZM152 112V44H174V112Z`) +
+    pp(`M60 44V32H180V44Z`) + ht(`M60 44V32H180V44Z`, "hX") + p(`M60 44V32H180V44Z`) +
+    pp(`M84 32L120 4L156 32Z`) + p(`M84 32L120 4L156 32Z`) + p(`M116 32V12H124V32M114 12H126`) + ht(`M116 32V12H124V32Z`, "hB") +
+    p(`M114 30Q104 22 96 28L92 30M106 26l-2 -6M100 26l2 -6M126 30Q136 22 144 28L148 30M134 26l2 -6M140 26l-2 -6`) + c(94, 24, 2.4) + c(146, 24, 2.4) +
+    p(`M92 112V60M148 112V60`) + birds(190, 20);
+  const letter = { A: `M-5 0L0 -14L5 0M-3 -5h6`, B: `M-4 0V-14H1Q5 -14 5 -10.5Q5 -7 1 -7H-4H2Q6 -7 6 -3.5Q6 0 2 0Z`, G: `M-4 0V-14H5`, D: `M-5 0L0 -14L5 0Z`, E: `M5 -14H-4V0H5M-4 -7H3` };
+  V.alphabet = () => sea(108) + g(at(204, 106, .7, galley()), "m-bob") +
+    pp(`M30 98Q26 60 34 22Q90 14 150 22Q158 60 154 98Q90 104 30 98Z`) + ht(`M30 98Q26 60 34 22Q90 14 150 22Q158 60 154 98Q90 104 30 98Z`, "hH") +
+    p(`M30 98Q26 60 34 22Q90 14 150 22Q158 60 154 98Q90 104 30 98Z`) +
+    ["A", "B", "G", "D", "E"].map((k, i) => `<g transform="translate(${48 + i * 22} 52) scale(1.4)">${p(letter[k])}</g>`).join("") +
+    [0, 1, 2, 3, 4].map(i => `<g transform="translate(${48 + i * 22} 84) scale(1.1)">${p([`M-4 -10L4 -12L0 0`, `M-4 -12H2V-6H-4M-2 -6V0`, `M-3 0L3 -12`, `M-4 -12H4L-4 0`, `M4 -12H-2V0M-2 -6H3M-4 -9h2`][i], "red")}</g>`).join("") +
+    p(`M40 66H144`) + birds(190, 30) + sun(214, 36, 7);
+  V.dome = () => ground() + cypress(26, 112, 46) + cypress(212, 112, 40) +
+    ht(`M62 112V70H178V112Z`, "hX") + p(`M62 112V70H178V112Z`) +
+    [78, 98, 142, 162].map(x => pp(`M${x - 5} 104V90q5 -8 10 0V104Z`) + p(`M${x - 5} 104V90q5 -8 10 0V104Z`)).join("") +
+    pp(`M112 112V92q8 -12 16 0V112Z`) + p(`M112 112V92q8 -12 16 0V112Z`) +
+    pp(`M70 70Q74 52 94 50H146Q166 52 170 70Z`) + ht(`M70 70Q74 52 94 50H146Q166 52 170 70Z`, "hA") + p(`M70 70Q74 52 94 50H146Q166 52 170 70Z`) +
+    pp(`M98 50V40H142V50Z`) + p(`M98 50V40H142V50Z`) + [104, 112, 120, 128, 136].map(x => p(`M${x} 48v-6`)).join("") +
+    pp(`M96 40Q120 4 144 40Z`) + ht(`M120 22Q134 26 144 40H120Z`, "hB") + p(`M96 40Q120 4 144 40Z`) +
+    p(`M120 13V3M115 7H125`) + birds(170, 22) + sun(40, 28, 7);
+  V.minaret = () => sea(108) +
+    ht(`M30 108V48H62V108Z`, "hA") + p(`M30 108V48H62V108ZM28 48H64` + crenel(28, 64, 48, 4)) + p(`M30 70H62M30 90H62M44 60h4v6h-4zM44 80h4v6h-4z`) +
+    pp(`M34 44V32H58V44Z`) + p(`M34 44V32H58V44Z` + crenel(34, 58, 32, 3)) +
+    ht(`M100 108V80H190V108Z`, "hX") + p(`M100 108V80H190V108Z`) +
+    pp(`M116 80Q145 40 174 80Z`) + ht(`M145 60Q164 64 174 80H145Z`, "hB") + p(`M116 80Q145 40 174 80Z`) + p(`M145 52V46M142 48Q145 42 148 48`) +
+    [204].map(x => ht(`M${x - 4} 108V36H${x + 4}V108Z`, "hA") + p(`M${x - 4} 108V36H${x + 4}V108ZM${x - 6} 52H${x + 6}V56H${x - 6}ZM${x - 4} 36L${x} 20L${x + 4} 36Z`)).join("") +
+    [110, 130, 160, 180].map(x => p(`M${x - 3} 100v-8q3 -5 6 0v8z`)).join("") + cypress(86, 108, 36) + birds(120, 22);
+  V.dinghy = () => sea(98) + mountains([[0, 98], [20, 80], [40, 86], [62, 98]], 98, "hA") +
+    p(`M30 82V64M27 64h6l-3 -6z`) + g(p(`M30 62l14 -4M30 62l14 4`, "red"), "m-flick") +
+    g(at(150, 98, 1.15, ht(`M-34 -6Q-36 4 -24 4H26Q36 4 34 -6Z`, "hX") + p(`M-34 -6Q-36 4 -24 4H26Q36 4 34 -6ZM-34 -6H34`) +
+      [-26, -16, -6, 4, 14, 24].map((x, i) => c(x, -14 - (i % 2) * 2, 3) + ht(`M${x - 4} -6V${-10 - (i % 2) * 2}Q${x} ${-12 - (i % 2) * 2} ${x + 4} ${-10 - (i % 2) * 2}V-6Z`, "hR") + p(`M${x - 4} -6V${-10 - (i % 2) * 2}Q${x} ${-12 - (i % 2) * 2} ${x + 4} ${-10 - (i % 2) * 2}V-6`, "red")).join("")), "m-bob") +
+    g(at(170, 30, 1, plane()), "m-drift") + birds(90, 30) + sun(214, 28, 7);
+
+
+
+  /* ---------- Italy ---------- */
+  V.iceman = () => mountains([[0, 112], [30, 60], [52, 40], [70, 54], [96, 30], [126, 62], [150, 44], [180, 70], [210, 36], [240, 72]], 112, "hH") +
+    p(`M52 40l-6 10 8 -2 4 8 4 -10M96 30l-8 12 9 -3 5 9 6 -12M210 36l-7 11 8 -2 4 7 5 -10`) +
+    pp(`M0 112Q120 96 240 112V130H0Z`) + p(`M0 112Q120 96 240 112`) +
+    g(at(118, 108, 1.15, person({ walk: true, load: 1 }) + p(`M-6 -36L-6 -2M-6 -36q-4 17 0 34`) + p(`M7 -20L13 -30M11 -31l4 -1 1 4`)), "m-walk") +
+    p(`M150 112q4 -3 8 0M170 110q4 -3 8 0M80 112q4 -3 8 0`) + birds(170, 20) + sun(30, 26, 7);
+  V.etruscan = () => ground() + [[50, 112, 40, 26], [124, 112, 52, 34], [196, 112, 36, 22]].map(([x, y, r, h]) =>
+      ht(`M${x - r} ${y}Q${x - r} ${y - h} ${x} ${y - h - 4}Q${x + r} ${y - h} ${x + r} ${y}Z`, "hA") +
+      p(`M${x - r} ${y}Q${x - r} ${y - h} ${x} ${y - h - 4}Q${x + r} ${y - h} ${x + r} ${y}`) +
+      ht(`M${x - r} ${y}V${y - 8}H${x + r}V${y}Z`, "hX") + p(`M${x - r} ${y - 8}H${x + r}`) +
+      pp(`M${x - 5} ${y}V${y - 12}L${x} ${y - 16}L${x + 5} ${y - 12}V${y}Z`) + p(`M${x - 5} ${y}V${y - 12}L${x} ${y - 16}L${x + 5} ${y - 12}V${y}`)).join("") +
+    cypress(90, 112, 44) + cypress(164, 112, 38) + cypress(226, 112, 30) + birds(150, 22) + sun(28, 30, 7);
+  const elephant = () => ht(`M-26 -22C-24 -36 6 -38 14 -30C20 -34 28 -30 28 -22C30 -14 26 -6 24 0H18V-10H-14V0H-20V-8C-26 -10 -28 -16 -26 -22Z`, "hA") +
+    p(`M-26 -22C-24 -36 6 -38 14 -30C20 -34 28 -30 28 -22C30 -14 26 -6 24 0H18V-10H-14V0H-20V-8C-26 -10 -28 -16 -26 -22Z`) +
+    p(`M26 -16Q34 -10 32 0M24 -20l8 2M14 -30Q12 -22 18 -18M-26 -22l-4 6`) + c(21, -24, .9, "sf") +
+    ht(`M-12 -36h16v-8h-16z`, "hB") + p(`M-12 -36h16v-8h-16zM-4 -44v-6M-4 -50l6 2 -6 2`);
+  V.elephant = () => mountains([[0, 112], [34, 48], [56, 62], [88, 28], [120, 58], [150, 38], [190, 64], [218, 34], [240, 60]], 112, "hH") +
+    p(`M34 48l-6 9 8 -2 5 8M88 28l-8 11 9 -2 5 8M218 34l-7 10 8 -2 4 7`) + pp(`M0 112Q120 100 240 112V130H0Z`) + p(`M0 112Q120 100 240 112`) +
+    g(at(120, 110, 1.15, elephant()) + at(60, 110, .9, person({ spear: 1 })) + at(176, 110, .8, person({ spear: 1 })), "m-walk") + birds(160, 18);
+  V.colosseum = () => ground() + ht(`M20 112V40Q120 26 220 40V112Z`, "hA") + p(`M20 112V40Q120 26 220 40V112`) +
+    p(`M20 92H220M20 72H220M20 52H220`) +
+    [[92, 112], [72, 92], [52, 72]].map(([yt, yb]) => { let d = ""; for (let i = 0; i < 9; i++) { const x = 31 + i * 22.2; d += `M${f(x - 7)} ${yb}V${yt + 8}Q${f(x)} ${yt + 1} ${f(x + 7)} ${yt + 8}V${yb}Z`; } return pp(d) + p(d); }).join("") +
+    (() => { let d = ""; for (let i = 0; i < 9; i++) { const x = 31 + i * 22.2; d += `M${f(x - 3)} 47h6v-5h-6z`; } return p(d); })() +
+    ht(`M188 112V58L220 40V112Z`, "hX") + birds(150, 14) + sun(34, 22, 6);
+  V.gondola = () => sea(100) +
+    ht(`M110 100V44H230V100Z`, "hA") + pp(`M110 100V44H230V100Z`) + p(`M110 100V44H230V100ZM106 44H234M106 40H234`) + ht(`M106 40H234V44H106Z`, "hX") +
+    [118, 134, 150, 166, 182, 198, 214].map(x => p(`M${x} 64v-10q4 -6 8 0v10z`) + p(`M${x} 88v-12q4 -6 8 0v12z`)).join("") + p(`M110 70H230`) +
+    [120, 150, 180, 210].map(x => p(`M${x} 44l4 -6 4 6`)).join("") +
+    ht(`M40 100V30H56V100Z`, "hA") + p(`M40 100V30H56V100ZM38 30L48 10L58 30Z`) + ht(`M38 30L48 10L58 30Z`, "hB") +
+    g(at(70, 104, 1, sf(`M-34 -6Q-20 2 0 0Q20 0 32 -10L34 -16L30 -10Q16 -4 0 -4Q-20 -4 -30 -8Z`) + p(`M30 -12l6 -10M-24 -6l-4 -14`) + at(-12, -6, .8, person({ walk: false, staff: 1 }))), "m-bob") +
+    birds(80, 20);
+  V.duomo = () => ground() + ht(`M40 112V74H200V112Z`, "hX") + p(`M40 112V74H200V112ZM36 74H204`) +
+    [56, 76, 164, 184].map(x => p(`M${x - 4} 100v-14q4 -6 8 0v14z`)).join("") + pp(`M110 112V96q10 -14 20 0V112Z`) + p(`M110 112V96q10 -14 20 0V112`) +
+    pp(`M84 74V62H156V74Z`) + p(`M84 74V62H156V74Z`) + [92, 104, 116, 128, 140, 150].map(x => c(x, 68, 2)).join("") +
+    pp(`M88 62Q90 26 120 18Q150 26 152 62Z`) + ht(`M120 18Q150 26 152 62H120Z`, "hR") + p(`M88 62Q90 26 120 18Q150 26 152 62Z`, "red") +
+    p(`M104 60Q106 32 120 20M136 60Q134 32 120 20`, "red") +
+    pp(`M114 18V8H126V18Z`) + p(`M114 18V8H126V18ZM112 8L120 2L128 8`) +
+    ht(`M206 112V20H222V112Z`, "hA") + p(`M206 112V20H222V112ZM204 20H224M206 46H222M206 72H222M210 32h8v8h-8zM210 58h8v8h-8z`) +
+    cypress(22, 112, 40) + birds(170, 16);
+  V.risorgimento = () => mountains([[0, 112], [40, 84], [80, 98], [120, 70], [170, 92], [210, 76], [240, 96]], 112, "hH") +
+    ht(`M60 112Q120 70 180 112Z`, "hA") + p(`M60 112Q120 70 180 112`) +
+    at(120, 91, 1.2, person({ walk: false }) + p(`M6 -18L10 -48`)) +
+    g(`<g transform="translate(132 34)">` + ht(`M0 0q8 -3 16 0t16 0v12q-8 -3 -16 0t-16 0z`, "hB") +
+      p(`M0 0q8 -3 16 0t16 0v12q-8 -3 -16 0t-16 0z`, "red") + p(`M10.7 -1.3V10.7M21.3 1.3V13.3`) + "</g>", "m-flag") +
+    g(at(70, 112, .9, person({ spear: 1 })) + at(176, 112, .9, person({ spear: 1 })), "m-walk") + sun(208, 28, 8) + birds(40, 30);
 
   /* ---------- big welcome panorama (viewBox 0 0 720 150) ---------- */
   const panorama = () => {
@@ -2012,6 +2122,994 @@ COUNTRIES.china.refs = [
   {ch:[13], t:["China's migrant workers see steady income rise in 2024 (NBS monitoring report)","Renda dos trabalhadores migrantes chineses sobe em 2024 (relatório do NBS)"], s:"State Council of the PRC, 2025", u:"https://english.www.gov.cn/archive/statistics/202504/30/content_WS6812249ac6d0868f4e8f2395.html"}
 ];
 
+/* ===================== GREECE ===================== */
+const ATH = [23.73, 37.98];
+COUNTRIES.greece = {
+  id:"greece", iso:"300", art:"temple",
+  name:["Greece","Grécia"],
+  sub:["Greece: 200,000 years at the crossroads of the sea","Grécia: 200 mil anos na encruzilhada do mar"],
+  span:["200,000 years ago – today","há 200 mil anos – hoje"],
+  stat:[["200,000","200 mil"],["years of history","anos de história"]],
+  intro:["Greece sits where Europe, Asia and Africa almost touch, scattered across peninsulas and some six thousand islands. People have always arrived here by land and by sea, and just as often left again, carrying the Greek language as far as Marseille, Egypt and Afghanistan. Follow the arrivals and departures, chapter by chapter, to the present day.",
+         "A Grécia fica onde a Europa, a Ásia e a África quase se tocam, espalhada por penínsulas e cerca de seis mil ilhas. Sempre se chegou aqui por terra e por mar, e com a mesma frequência se partiu de novo, levando a língua grega até Marselha, o Egito e o Afeganistão. Acompanhe as chegadas e partidas, capítulo a capítulo, até os dias de hoje."],
+  eras:[
+/* I */
+{
+  view:{c:[45,12], span:120}, art:"walkers", spot:{c:[22.38,36.63], n:["Apidima Cave","Caverna de Apidima"]},
+  routes:[
+    {kind:"people", pts:[[37,6],[40,14],[38,24],[34,30],[36,33]], label:["Out of Africa","Saída da África"]},
+    {kind:"people", pts:[[36,33],[34.5,36.6],[30,37.6],[26.5,37.4],[22.38,36.63]], label:["Into the Aegean","Rumo ao Egeu"], lf:.62},
+    {kind:"people", pts:[[36,33],[50,29],[66,24],[80,18]]}
+  ],
+  places:[
+    {n:"Jebel Irhoud", c:[-8.87,31.85], t:["Oldest Homo sapiens fossils, ~300,000 years","Fósseis de Homo sapiens mais antigos, c. 300 mil anos"]},
+    {n:"Omo Kibish", c:[35.9,5.4], t:["Early Homo sapiens fossils","Fósseis antigos de Homo sapiens"]},
+    {n:"Apidima", c:[22.38,36.63], t:["Skull fragment, at least 210,000 years old (debated)","Fragmento de crânio com pelo menos 210 mil anos (debatido)"]}
+  ],
+  en:{short:"Out of Africa", date:"c. 300,000 – 60,000 years ago", title:"An early visitor in the Peloponnese",
+    story:["Our species, Homo sapiens, appeared in Africa about 300,000 years ago. Most of the people who live outside Africa today descend from groups that left it roughly 60,000 to 70,000 years ago.",
+           "But there may have been earlier, failed attempts. In 2019 researchers re-examined a skull fragment from Apidima Cave in the southern Peloponnese, found in the 1970s, and argued it belonged to a modern human at least 210,000 years ago. If they are right, it is the oldest Homo sapiens fossil outside Africa. Other experts doubt both the date and the identification."],
+    lname:"Apidima Cave", ltext:"In the same cave lay a second, more complete skull. It belonged to a Neanderthal, the human species that would hold south-eastern Europe for a long time after these early visitors vanished.",
+    facts:["Some experts call the Apidima evidence shaky: the fragment is small, and no DNA has been recovered from it.",
+           "Most people outside Africa carry around 1–2% Neanderthal DNA, a trace of later encounters between the two species."]},
+  pt:{short:"Saída da África", date:"há c. 300 mil – 60 mil anos", title:"Um visitante antigo no Peloponeso",
+    story:["Nossa espécie, o Homo sapiens, surgiu na África há cerca de 300 mil anos. A maioria das pessoas que vivem fora da África hoje descende de grupos que saíram de lá há cerca de 60 a 70 mil anos.",
+           "Mas pode ter havido tentativas anteriores que não deram certo. Em 2019, pesquisadores reexaminaram um fragmento de crânio da Caverna de Apidima, no sul do Peloponeso, encontrado nos anos 1970, e defenderam que ele pertencia a um humano moderno de pelo menos 210 mil anos atrás. Se estiverem certos, é o fóssil de Homo sapiens mais antigo fora da África. Outros especialistas duvidam tanto da data quanto da identificação."],
+    lname:"Caverna de Apidima", ltext:"Na mesma caverna havia um segundo crânio, mais completo. Pertencia a um neandertal, a espécie humana que ocuparia o sudeste da Europa por muito tempo depois que esses primeiros visitantes desapareceram.",
+    facts:["Alguns especialistas consideram as provas de Apidima frágeis: o fragmento é pequeno e não foi possível extrair DNA dele.",
+           "A maioria das pessoas fora da África tem cerca de 1% a 2% de DNA neandertal, vestígio de encontros posteriores entre as duas espécies."]}
+},
+/* II */
+{
+  view:{c:[28,40], span:30}, art:"cavefire", spot:{c:[21.68,39.68], n:["Theopetra Cave","Caverna de Theopetra"]},
+  routes:[
+    {kind:"people", pts:[[35.5,33.5],[34.5,36.8],[31,39.5],[28,41],[25.5,41],[23.2,40.3],[21.68,39.68]], label:["Through Anatolia","Pela Anatólia"], lf:.35},
+    {kind:"people", pts:[[23.2,40.3],[23.2,38.6],[23.13,37.42]]}
+  ],
+  places:[
+    {n:"Theopetra", c:[21.68,39.68], t:["Stone wall built ~23,000 years ago","Muro de pedra construído há c. 23 mil anos"]},
+    {n:"Franchthi", c:[23.13,37.42], t:["A cave used for some 35,000 years","Caverna usada por cerca de 35 mil anos"]},
+    {n:"Apidima", c:[22.38,36.63], t:["Neanderthal skull","Crânio neandertal"]}
+  ],
+  en:{short:"First Europeans", date:"c. 45,000 – 15,000 years ago", title:"Hunters in the cold",
+    story:["Modern humans spread from the Middle East through Anatolia into Europe from around 45,000 years ago. Greece, the first stop on the way, already had Neanderthals, who disappeared within a few thousand years of the newcomers' arrival.",
+           "During the coldest phase of the Ice Age, about 20,000 years ago, the sea was more than 100 metres lower. Plains stretched where the Aegean is today, and some islands were joined to the mainland. Small bands of hunters followed wild horses, deer and ibex, and sheltered in caves such as Franchthi in the Argolid and Theopetra in Thessaly."],
+    lname:"Theopetra Cave", ltext:"About 23,000 years ago, people at Theopetra, near today's Kalambaka, built a stone wall across two-thirds of the cave mouth, probably to keep out the icy wind. Greece's culture ministry has called it the oldest known human-built structure.",
+    facts:["Franchthi Cave was used as a shelter for roughly 35,000 years, until about 3000 BC.",
+           "A Palaeolithic band at Franchthi probably numbered only 25 to 30 people."]},
+  pt:{short:"Primeiros europeus", date:"há c. 45 mil – 15 mil anos", title:"Caçadores no frio",
+    story:["Os humanos modernos se espalharam do Oriente Médio pela Anatólia até a Europa a partir de cerca de 45 mil anos atrás. A Grécia, primeira parada no caminho, já tinha neandertais, que desapareceram poucos milênios depois da chegada dos recém-chegados.",
+           "Na fase mais fria da Era do Gelo, há cerca de 20 mil anos, o mar estava mais de 100 metros mais baixo. Havia planícies onde hoje é o Egeu, e algumas ilhas estavam ligadas ao continente. Pequenos bandos de caçadores seguiam cavalos selvagens, cervos e cabras-monteses e se abrigavam em cavernas como Franchthi, na Argólida, e Theopetra, na Tessália."],
+    lname:"Caverna de Theopetra", ltext:"Há cerca de 23 mil anos, os habitantes de Theopetra, perto da atual Kalambaka, construíram um muro de pedra cobrindo dois terços da entrada da caverna, provavelmente para barrar o vento gelado. O Ministério da Cultura grego o chamou de a mais antiga construção humana conhecida.",
+    facts:["A Caverna de Franchthi foi usada como abrigo por cerca de 35 mil anos, até por volta de 3000 a.C.",
+           "Um bando paleolítico em Franchthi provavelmente tinha apenas 25 a 30 pessoas."]}
+},
+/* III */
+{
+  view:{c:[24,37.8], span:7}, art:"obsidian", spot:{c:[23.13,37.42], n:["Franchthi Cave","Caverna de Franchthi"]},
+  routes:[
+    {kind:"trade", pts:[[24.43,36.70],[24.0,37.0],[23.5,37.25],[23.13,37.42]], label:["Obsidian by boat","Obsidiana de barco"], lf:.5},
+    {kind:"trade", pts:[[24.43,36.70],[24.9,37.5],[24.6,38.4],[24.13,39.37]]}
+  ],
+  places:[
+    {n:["Melos","Milos"], c:[24.43,36.70], t:["Source of volcanic glass (obsidian)","Fonte de vidro vulcânico (obsidiana)"]},
+    {n:"Franchthi", c:[23.13,37.42], t:["Melian obsidian more than 12,000 years ago","Obsidiana de Milos há mais de 12 mil anos"]},
+    {n:["Cyclops Cave, Youra","Caverna do Ciclope, Youra"], c:[24.13,39.37], t:["Mesolithic fishers","Pescadores mesolíticos"]}
+  ],
+  en:{short:"First sailors", date:"c. 13,000 – 7000 BC", title:"The first boats on the Aegean",
+    story:["As the Ice Age ended, the sea rose and the Aegean filled again. Hunters became fishers and gatherers of shellfish, wild plants and small game.",
+           "At Franchthi Cave, archaeologists found obsidian, a sharp volcanic glass, from the island of Melos, more than 120 kilometres away across open water. Melos was always an island, so the only way to bring it was by boat. It is the earliest evidence of seafaring in Greece, more than 12,000 years ago."],
+    lname:"Franchthi Cave", ltext:"By around 7900–7500 BC, the people of Franchthi were catching tuna, which means they were going out to sea regularly. They also buried some of their dead in the cave, with personal objects.",
+    facts:["Obsidian cuts more sharply than steel, which made it the most prized stone for blades across the Aegean for thousands of years.",
+           "Archaeologists can trace each piece of obsidian to its volcano by its chemical fingerprint."]},
+  pt:{short:"Primeiros navegantes", date:"c. 13.000 – 7000 a.C.", title:"Os primeiros barcos no Egeu",
+    story:["Com o fim da Era do Gelo, o mar subiu e o Egeu voltou a se encher. Os caçadores se tornaram pescadores e coletores de mariscos, plantas silvestres e animais pequenos.",
+           "Na Caverna de Franchthi, arqueólogos encontraram obsidiana, um vidro vulcânico afiado, da ilha de Milos, a mais de 120 quilômetros por mar aberto. Milos sempre foi uma ilha, então a única maneira de trazê-la era de barco. É a prova mais antiga de navegação na Grécia, há mais de 12 mil anos."],
+    lname:"Caverna de Franchthi", ltext:"Por volta de 7900–7500 a.C., os habitantes de Franchthi pescavam atum, o que significa que saíam ao mar com regularidade. Também enterravam alguns de seus mortos na caverna, com objetos pessoais.",
+    facts:["A obsidiana corta mais que o aço, o que a tornou a pedra mais valorizada para lâminas no Egeu por milhares de anos.",
+           "Os arqueólogos conseguem ligar cada pedaço de obsidiana ao seu vulcão pela sua 'impressão digital' química."]}
+},
+/* IV */
+{
+  view:{c:[27,39.5], span:20}, art:"farm", spot:{c:[22.84,39.36], n:["Sesklo","Sesklo"]},
+  routes:[
+    {kind:"people", pts:[[32.83,37.67],[30,38.3],[27.2,38.5],[25,38.9],[22.84,39.36]], label:["Farmers from Anatolia","Agricultores da Anatólia"], lf:.3},
+    {kind:"people", pts:[[27.2,38.5],[26,37],[24.5,36.6],[23.6,37.1],[23.13,37.42]]},
+    {kind:"people", pts:[[27.2,38.5],[26.3,36.6],[25.16,35.30]]},
+    {kind:"people", pts:[[22.84,39.36],[22.3,40.8],[21.6,42.6],[20.6,44.6]], label:["Into Europe","Rumo à Europa"], lf:.85}
+  ],
+  places:[
+    {n:"Çatalhöyük", c:[32.83,37.67], t:["Large farming town in Anatolia","Grande povoado agrícola na Anatólia"]},
+    {n:"Sesklo", c:[22.84,39.36], t:["Neolithic village in Thessaly","Aldeia neolítica na Tessália"]},
+    {n:"Nea Nikomedeia", c:[22.27,40.6], t:["Early farming village","Aldeia agrícola antiga"]},
+    {n:["Knossos","Cnossos"], c:[25.16,35.30], t:["Settled by farmers c. 7000 BC","Ocupada por agricultores c. 7000 a.C."]},
+    {n:"Franchthi", c:[23.13,37.42], t:["Domestic plants and animals c. 7000 BC","Plantas e animais domésticos c. 7000 a.C."]}
+  ],
+  en:{short:"First farmers", date:"c. 7000 – 3200 BC", title:"Farming enters Europe through Greece",
+    story:["Around 7000 BC, people from Anatolia, today's Turkey, began arriving with wheat, barley, lentils, sheep and goats. Some crossed the Aegean by boat, hopping between islands; others came overland through Thrace.",
+           "Greece was the first part of Europe to farm. From the plains of Thessaly and Macedonia, the descendants of these farmers carried agriculture north along the rivers into the Balkans and the rest of Europe. Ancient DNA shows they were newcomers, not local hunters who had adopted farming."],
+    lname:"Sesklo", ltext:"On a low hill in Thessaly, Sesklo grew into one of the largest villages in Neolithic Europe, with stone-based houses of mud brick and finely painted red-and-white pottery.",
+    facts:["Farming reached Portugal about 1,500 years after it reached Greece.",
+           "Neolithic Thessaly had hundreds of villages built on mounds of their own debris, called magoules."]},
+  pt:{short:"Primeiros agricultores", date:"c. 7000 – 3200 a.C.", title:"A agricultura entra na Europa pela Grécia",
+    story:["Por volta de 7000 a.C., povos da Anatólia, a atual Turquia, começaram a chegar com trigo, cevada, lentilha, ovelhas e cabras. Alguns atravessaram o Egeu de barco, de ilha em ilha; outros vieram por terra, pela Trácia.",
+           "A Grécia foi a primeira parte da Europa a praticar a agricultura. Das planícies da Tessália e da Macedônia, os descendentes desses agricultores levaram a agricultura para o norte, pelos rios, até os Bálcãs e o resto da Europa. O DNA antigo mostra que eram recém-chegados, e não caçadores locais que adotaram a agricultura."],
+    lname:"Sesklo", ltext:"Numa colina baixa da Tessália, Sesklo se tornou uma das maiores aldeias da Europa neolítica, com casas de tijolo de barro sobre bases de pedra e cerâmica fina pintada de vermelho e branco.",
+    facts:["A agricultura chegou a Portugal cerca de 1.500 anos depois de chegar à Grécia.",
+           "A Tessália neolítica tinha centenas de aldeias construídas sobre montes formados pelos próprios entulhos, chamados magoules."]}
+},
+/* V */
+{
+  view:{c:[29,34], span:22}, art:"bull", spot:{c:[25.16,35.30], n:["Knossos","Cnossos"]},
+  routes:[
+    {kind:"people", pts:[[44,40],[39,39.2],[34,38],[29.5,36.8],[26.8,35.9],[25.16,35.30]], label:["Ancestry from the east","Ancestralidade do leste"], lf:.25},
+    {kind:"trade", pts:[[25.16,35.30],[27.5,33.2],[30,31.6],[31.82,30.79]], label:["To Egypt","Para o Egito"], lf:.55},
+    {kind:"trade", pts:[[25.16,35.30],[29,35.4],[33,35.1],[35.65,34.12]], label:["To Byblos","Para Biblos"], lf:.8},
+    {kind:"trade", pts:[[25.16,35.30],[25.3,35.9],[25.40,36.40]]}
+  ],
+  places:[
+    {n:["Knossos","Cnossos"], c:[25.16,35.30], t:["Largest Minoan palace","O maior palácio minoico"]},
+    {n:"Akrotiri", c:[25.40,36.36], t:["Town buried by the Thera eruption","Cidade soterrada pela erupção de Tera"]},
+    {n:"Avaris", c:[31.82,30.79], t:["Egyptian city with Minoan-style frescoes","Cidade egípcia com afrescos de estilo minoico"]},
+    {n:["Byblos","Biblos"], c:[35.65,34.12], t:["Levantine trading port","Porto comercial do Levante"]}
+  ],
+  en:{short:"Minoans", date:"c. 3000 – 1450 BC", title:"The palaces of Crete",
+    story:["In the Bronze Age, Crete became the centre of the first great civilization on European soil, called Minoan after the legendary King Minos. Its palaces at Knossos, Phaistos and Malia ran farms, workshops and fleets that traded with Egypt, Cyprus and the Levant.",
+           "Ancient DNA shows the Minoans descended mostly, at least three-quarters, from the first farmers. The rest came from people related to ancient populations of the Caucasus and Iran, who had moved west through Anatolia. The Minoans wrote in a script called Linear A, which nobody has yet deciphered."],
+    lname:"Knossos", ltext:"The palace of Knossos had more than a thousand rooms around a great central court, with painted walls, light wells and drains. Its maze of corridors may be the origin of the myth of the Labyrinth and the Minotaur.",
+    facts:["Around 1600 BC the volcano of Thera (Santorini) erupted in one of the largest blasts of the last 10,000 years, burying the town of Akrotiri in ash.",
+           "Minoan frescoes show young men and women leaping over charging bulls."]},
+  pt:{short:"Minoicos", date:"c. 3000 – 1450 a.C.", title:"Os palácios de Creta",
+    story:["Na Idade do Bronze, Creta se tornou o centro da primeira grande civilização em solo europeu, chamada minoica por causa do lendário rei Minos. Seus palácios em Cnossos, Festo e Mália administravam fazendas, oficinas e frotas que comerciavam com o Egito, Chipre e o Levante.",
+           "O DNA antigo mostra que os minoicos descendiam sobretudo, pelo menos três quartos, dos primeiros agricultores. O resto vinha de povos aparentados com antigas populações do Cáucaso e do Irã, que tinham migrado para o oeste pela Anatólia. Os minoicos escreviam numa escrita chamada Linear A, que ninguém decifrou até hoje."],
+    lname:"Cnossos", ltext:"O palácio de Cnossos tinha mais de mil cômodos em volta de um grande pátio central, com paredes pintadas, poços de luz e canais de escoamento. Seu labirinto de corredores pode ter dado origem ao mito do Labirinto e do Minotauro.",
+    facts:["Por volta de 1600 a.C., o vulcão de Tera (Santorini) entrou em erupção, numa das maiores explosões dos últimos 10 mil anos, e soterrou a cidade de Akrotiri em cinzas.",
+           "Afrescos minoicos mostram rapazes e moças saltando sobre touros em disparada."]}
+},
+/* VI */
+{
+  view:{c:[28,42], span:30}, art:"liongate", spot:{c:[22.76,37.73], n:["Mycenae","Micenas"]},
+  routes:[
+    {kind:"people", pts:[[40,47.5],[34,46.8],[29,45],[26,43],[23.5,41.2],[22.6,39.5],[22.76,37.73]], label:["Steppe ancestry","Ancestralidade da estepe"], lf:.2},
+    {kind:"conquest", pts:[[22.76,37.73],[23.4,36.6],[24.4,35.7],[25.16,35.30]], label:["Mycenaeans in Knossos","Micênicos em Cnossos"], lf:.75},
+    {kind:"trade", pts:[[22.76,37.73],[24.3,38.4],[25.4,39.3],[26.24,39.96]], label:["To Troy","Para Troia"], lf:.85}
+  ],
+  places:[
+    {n:["Mycenae","Micenas"], c:[22.76,37.73], t:["Lion Gate, c. 1250 BC","Porta dos Leões, c. 1250 a.C."]},
+    {n:"Pylos", c:[21.67,37.03], t:["Palace archive of Linear B tablets","Arquivo de tabuletas em Linear B"]},
+    {n:["Knossos","Cnossos"], c:[25.16,35.30], t:["Under Mycenaean rule from c. 1450 BC","Sob domínio micênico desde c. 1450 a.C."]},
+    {n:["Troy","Troia"], c:[26.24,39.96], t:["City of the Iliad","Cidade da Ilíada"]}
+  ],
+  en:{short:"Mycenaeans", date:"c. 1600 – 1100 BC", title:"The first Greeks",
+    story:["On the mainland, warrior kingdoms rose at Mycenae, Pylos, Tiryns and Thebes. Their rulers were buried with gold masks and bronze weapons. Around 1450 BC they took over Knossos, and they traded across the Aegean as far as Troy.",
+           "Their genes were close to the Minoans', with one difference: a smaller share of ancestry from the steppes north of the Black Sea, brought by people who had moved south through the Balkans. Many researchers link this movement to the arrival of the Greek language."],
+    lname:"Mycenae", ltext:"Mycenae's walls were built of stones so huge that later Greeks believed only the one-eyed giants, the Cyclopes, could have lifted them. Visitors still enter through the Lion Gate, built around 1250 BC.",
+    facts:["The Mycenaeans wrote the oldest known form of Greek in a script called Linear B. The architect Michael Ventris deciphered it in 1952.",
+           "Most Linear B tablets are palace inventories: sheep, oil, chariot wheels and lists of workers."]},
+  pt:{short:"Micênicos", date:"c. 1600 – 1100 a.C.", title:"Os primeiros gregos",
+    story:["No continente, surgiram reinos guerreiros em Micenas, Pilos, Tirinto e Tebas. Seus governantes eram enterrados com máscaras de ouro e armas de bronze. Por volta de 1450 a.C., eles tomaram Cnossos e comerciavam por todo o Egeu, até Troia.",
+           "Seus genes eram parecidos com os dos minoicos, com uma diferença: uma parcela menor de ancestralidade das estepes ao norte do mar Negro, trazida por povos que desceram pelos Bálcãs. Muitos pesquisadores ligam esse movimento à chegada da língua grega."],
+    lname:"Micenas", ltext:"As muralhas de Micenas foram feitas de pedras tão enormes que os gregos posteriores acreditavam que só os gigantes de um olho só, os ciclopes, poderiam tê-las erguido. Os visitantes ainda entram pela Porta dos Leões, construída por volta de 1250 a.C.",
+    facts:["Os micênicos escreviam a forma mais antiga conhecida do grego, numa escrita chamada Linear B. O arquiteto Michael Ventris a decifrou em 1952.",
+           "A maioria das tabuletas em Linear B são inventários dos palácios: ovelhas, azeite, rodas de carro e listas de trabalhadores."]}
+},
+/* VII */
+{
+  view:{c:[29,36.5], span:20}, art:"alphabet", spot:{c:[23.68,38.41], n:["Lefkandi","Lefkandi"]},
+  routes:[
+    {kind:"people", pts:[[21,43.5],[21.3,41.6],[21.9,39.8],[22.4,38.2],[22.43,37.07]], label:["Dorians? (debated)","Dórios? (debatido)"], lf:.35},
+    {kind:"trade", pts:[[35.2,33.27],[33,34.6],[29.5,35.6],[26.5,36.6],[24.3,37.8],[23.68,38.41]], label:["Phoenician traders","Comerciantes fenícios"], lf:.3},
+    {kind:"trade", pts:[[23.68,38.41],[26,37.6],[30,36.4],[33.5,36.3],[35.98,36.08]], label:["Euboeans to Al Mina","Eubeus até Al Mina"], lf:.75}
+  ],
+  places:[
+    {n:["Tyre","Tiro"], c:[35.2,33.27], t:["Phoenician city","Cidade fenícia"]},
+    {n:"Al Mina", c:[35.98,36.08], t:["Trading post with Greek pottery","Entreposto com cerâmica grega"]},
+    {n:"Lefkandi", c:[23.68,38.41], t:["Rich burials, c. 950 BC","Sepulturas ricas, c. 950 a.C."]},
+    {n:["Athens","Atenas"], c:ATH}
+  ],
+  en:{short:"Collapse and the alphabet", date:"c. 1200 – 750 BC", title:"A dark age, then an alphabet",
+    story:["Around 1200 BC the Mycenaean palaces were burned and abandoned, part of a wider collapse that shook Egypt, Anatolia and the Levant. Writing was forgotten, trade shrank and many people left for Cyprus and the coast of Anatolia. Later Greeks told of 'Dorians' arriving from the north; archaeologists still debate whether such a migration happened.",
+           "Contact slowly returned. Phoenician merchants from Tyre and Sidon sailed into the Aegean, and Greeks from Euboea traded on the Syrian coast. Around 800 BC the Greeks borrowed the Phoenician alphabet and added letters for vowels, creating the alphabet that later gave rise to Latin and Cyrillic writing."],
+    lname:"Lefkandi", ltext:"At Lefkandi, on the island of Euboea, a man and a woman were buried around 950 BC in a long building with gold jewellery and goods from Egypt and the Levant, proof that the 'dark age' was not completely dark.",
+    facts:["The word 'alphabet' comes from its first two Greek letters, alpha and beta, borrowed from Phoenician aleph and beth.",
+           "Homer's Iliad and Odyssey were probably written down in the 8th century BC, using the new alphabet."]},
+  pt:{short:"Colapso e alfabeto", date:"c. 1200 – 750 a.C.", title:"Uma idade das trevas, e depois um alfabeto",
+    story:["Por volta de 1200 a.C., os palácios micênicos foram incendiados e abandonados, parte de um colapso mais amplo que abalou o Egito, a Anatólia e o Levante. A escrita foi esquecida, o comércio encolheu e muitos partiram para Chipre e para a costa da Anatólia. Gregos posteriores falavam da chegada dos 'dórios' vindos do norte; os arqueólogos ainda debatem se essa migração aconteceu.",
+           "O contato voltou aos poucos. Mercadores fenícios de Tiro e Sídon navegaram pelo Egeu, e gregos da Eubeia comerciavam na costa da Síria. Por volta de 800 a.C., os gregos adotaram o alfabeto fenício e acrescentaram letras para as vogais, criando o alfabeto que mais tarde deu origem às escritas latina e cirílica."],
+    lname:"Lefkandi", ltext:"Em Lefkandi, na ilha de Eubeia, um homem e uma mulher foram enterrados por volta de 950 a.C. num edifício comprido, com joias de ouro e objetos do Egito e do Levante, prova de que a 'idade das trevas' não foi tão escura.",
+    facts:["A palavra 'alfabeto' vem das duas primeiras letras gregas, alfa e beta, tiradas das letras fenícias aleph e beth.",
+           "A Ilíada e a Odisseia de Homero provavelmente foram escritas no século VIII a.C., já com o novo alfabeto."]}
+},
+/* VIII */
+{
+  view:{c:[18,39], span:36}, art:"galley", spot:{c:[22.88,37.91], n:["Corinth","Corinto"]},
+  routes:[
+    {kind:"leave", pts:[[22.88,37.91],[21,38.4],[19.5,38.6],[17.5,37.6],[15.29,37.08]], label:["Syracuse, 733 BC","Siracusa, 733 a.C."], lf:.8},
+    {kind:"leave", pts:[[26.75,38.65],[24.5,37.2],[21,36.8],[17,37.5],[12,38.6],[9,40.5],[7,42.5],[5.37,43.30]], label:["Massalia, c. 600 BC","Massália, c. 600 a.C."], lf:.88},
+    {kind:"leave", pts:[[23.35,38.0],[24.6,38.9],[26.1,40.1],[27.6,40.7],[28.98,41.01]], label:["Byzantium, 668 BC","Bizâncio, 668 a.C."], lf:.88, la:"end"},
+    {kind:"leave", pts:[[27.3,37.53],[26.2,40.2],[29,41.2],[31.5,43.6],[31.9,46.6]], label:["Olbia, c. 550 BC","Ólbia, c. 550 a.C."], lf:.85},
+    {kind:"leave", pts:[[25.43,36.4],[24.4,35],[22.8,33.6],[21.86,32.82]], label:["Cyrene, 631 BC","Cirene, 631 a.C."], lf:.85}
+  ],
+  places:[
+    {n:["Corinth","Corinto"], c:[22.88,37.91], t:["Founded Syracuse and Corcyra","Fundou Siracusa e Córcira"]},
+    {n:["Syracuse","Siracusa"], c:[15.29,37.08]},
+    {n:["Massalia (Marseille)","Massália (Marselha)"], c:[5.37,43.30]},
+    {n:["Emporion","Empórion"], c:[3.12,42.13], t:["Greek town in Spain, 575 BC","Cidade grega na Espanha, 575 a.C."]},
+    {n:["Byzantium","Bizâncio"], c:[28.98,41.01]},
+    {n:["Olbia","Ólbia"], c:[31.9,46.6]},
+    {n:["Cyrene","Cirene"], c:[21.86,32.82]}
+  ],
+  en:{short:"Colonies across the sea", date:"c. 750 – 550 BC", title:"Greeks settle the shores of the Mediterranean",
+    story:["As the population grew and good farmland ran short, Greek cities sent groups of settlers overseas to found new cities. Corinth founded Syracuse in Sicily, Megara founded Byzantium on the Bosporus, colonists from Thera founded Cyrene in Libya, and Phocaea, on the Anatolian coast, founded Massalia, today's Marseille.",
+           "Within two centuries there were Greek cities from Spain to the Crimea. Southern Italy had so many that it was called Magna Graecia, 'Great Greece'. The colonies kept their mother city's gods and dialect but became independent cities of their own."],
+    lname:"Corinth", ltext:"Corinth controlled the narrow isthmus between the Peloponnese and the mainland, with ports on two seas. Ships were dragged across the isthmus on a paved track called the diolkos, avoiding the long voyage around the Peloponnese.",
+    facts:["Plato wrote that the Greeks lived around the sea 'like ants or frogs around a pond'.",
+           "Marseille, Naples, Syracuse and Istanbul all began as Greek colonies; Naples comes from Neapolis, 'new city'."]},
+  pt:{short:"Colônias além-mar", date:"c. 750 – 550 a.C.", title:"Os gregos ocupam as margens do Mediterrâneo",
+    story:["Com o crescimento da população e a falta de boas terras, as cidades gregas enviaram grupos de colonos para fundar novas cidades além-mar. Corinto fundou Siracusa, na Sicília; Mégara fundou Bizâncio, no Bósforo; colonos de Tera fundaram Cirene, na Líbia; e Foceia, na costa da Anatólia, fundou Massália, a atual Marselha.",
+           "Em dois séculos, havia cidades gregas da Espanha à Crimeia. O sul da Itália tinha tantas que passou a ser chamado de Magna Grécia. As colônias mantinham os deuses e o dialeto da cidade-mãe, mas se tornavam cidades independentes."],
+    lname:"Corinto", ltext:"Corinto controlava o estreito istmo entre o Peloponeso e o continente, com portos em dois mares. Os navios eram arrastados pelo istmo numa pista pavimentada chamada diolkos, evitando a longa volta ao redor do Peloponeso.",
+    facts:["Platão escreveu que os gregos viviam em volta do mar 'como formigas ou rãs em volta de um lago'.",
+           "Marselha, Nápoles, Siracusa e Istambul começaram como colônias gregas; Nápoles vem de Neápolis, 'cidade nova'."]}
+},
+/* IX */
+{
+  view:{c:[27,39], span:18}, art:"temple", spot:{c:ATH, n:["Athens","Atenas"]},
+  routes:[
+    {kind:"conquest", pts:[[27.3,37.6],[26,37.6],[25,38],[24.2,38.2],[23.97,38.15]], label:["Persians to Marathon, 490 BC","Persas em Maratona, 490 a.C."], lf:.15},
+    {kind:"conquest", pts:[[28.5,40.6],[26.4,40.25],[24.5,40.8],[22.94,40.64],[22.4,39.6],[22.54,38.8],[23.3,38.3],[23.73,37.98]], label:["Xerxes, 480 BC","Xerxes, 480 a.C."], lf:.45},
+    {kind:"trade", pts:[[33.5,44.6],[31,43.2],[29.2,41.4],[26.4,40.25],[24.8,38.9],[23.63,37.94]], label:["Black Sea grain","Trigo do mar Negro"], lf:.12}
+  ],
+  places:[
+    {n:["Marathon","Maratona"], c:[23.97,38.15], t:["Athenian victory, 490 BC","Vitória ateniense, 490 a.C."]},
+    {n:["Thermopylae","Termópilas"], c:[22.54,38.8], t:["Leonidas and the 300, 480 BC","Leônidas e os 300, 480 a.C."]},
+    {n:["Salamis","Salamina"], c:[23.5,37.96], t:["Naval victory, 480 BC","Vitória naval, 480 a.C."]},
+    {n:["Sparta","Esparta"], c:[22.43,37.07]}
+  ],
+  en:{short:"Classical Athens", date:"490 – 323 BC", title:"Democracy, the Persian Wars and the Parthenon",
+    story:["In 490 and again in 480 BC the Persian Empire invaded Greece. Athens and Sparta led the resistance, winning at Marathon, Salamis and Plataea. Victory made Athens the leading naval power of the Aegean.",
+           "Athens had become a democracy in 508 BC, though only adult male citizens could vote. Its port, Piraeus, imported grain from the Black Sea and drew traders and craftsmen from across the Mediterranean. Thousands of free foreigners, called metics, lived in the city, alongside a large enslaved population."],
+    lname:"The Acropolis", ltext:"On the rock above the city, the Athenians built the Parthenon between 447 and 432 BC, a temple to Athena paid for partly with money from their allies. It became one of the most copied buildings in history.",
+    facts:["From 451 BC, Athenian citizenship was limited to children of an Athenian father and an Athenian mother.",
+           "The marathon race is named after the legend of a runner who carried news of the victory from Marathon to Athens."]},
+  pt:{short:"Atenas clássica", date:"490 – 323 a.C.", title:"Democracia, Guerras Médicas e o Partenon",
+    story:["Em 490 e de novo em 480 a.C., o Império Persa invadiu a Grécia. Atenas e Esparta lideraram a resistência e venceram em Maratona, Salamina e Plateias. A vitória fez de Atenas a principal potência naval do Egeu.",
+           "Atenas tinha se tornado uma democracia em 508 a.C., embora só os cidadãos homens adultos pudessem votar. Seu porto, o Pireu, importava trigo do mar Negro e atraía comerciantes e artesãos de todo o Mediterrâneo. Milhares de estrangeiros livres, chamados metecos, viviam na cidade, ao lado de uma grande população escravizada."],
+    lname:"A Acrópole", ltext:"Na rocha acima da cidade, os atenienses construíram o Partenon entre 447 e 432 a.C., um templo a Atena pago em parte com o dinheiro dos aliados. Tornou-se um dos edifícios mais copiados da história.",
+    facts:["A partir de 451 a.C., a cidadania ateniense ficou restrita aos filhos de pai ateniense e mãe ateniense.",
+           "A corrida de maratona tem o nome da lenda de um mensageiro que levou a notícia da vitória de Maratona até Atenas."]}
+},
+/* X */
+{
+  view:{c:[48,32], span:70}, art:"rider", spot:{c:[29.92,31.2], n:["Alexandria","Alexandria"]},
+  routes:[
+    {kind:"conquest", pts:[[22.52,40.76],[26.4,40.25],[30,39.5],[33.5,38.4],[36.15,36.85],[35.2,33.27],[32.5,31.2],[29.92,31.2]], label:["Alexander, 334–331 BC","Alexandre, 334–331 a.C."], lf:.1},
+    {kind:"conquest", pts:[[29.92,31.2],[34,31.5],[38,34.5],[43.2,36.4],[44.42,32.54],[52.89,29.93],[60,33],[66.9,36.75],[69.4,37.17],[71,35],[72.82,33.75],[75.5,31.5]], label:["To India","Até a Índia"], lf:.9},
+    {kind:"people", pts:[[22.94,40.64],[27.5,38.6],[34,34.8],[38.5,33.2],[44.42,32.54]], label:["Greek settlers","Colonos gregos"], lf:.55}
+  ],
+  places:[
+    {n:"Pella", c:[22.52,40.76], t:["Macedonian capital","Capital macedônia"]},
+    {n:["Alexandria","Alexandria"], c:[29.92,31.2], t:["Founded 331 BC","Fundada em 331 a.C."]},
+    {n:["Babylon","Babilônia"], c:[44.42,32.54], t:["Alexander died here, 323 BC","Alexandre morreu aqui, 323 a.C."]},
+    {n:"Ai Khanoum", c:[69.4,37.17], t:["Greek city in Afghanistan","Cidade grega no Afeganistão"]},
+    {n:"Taxila", c:[72.82,33.75]}
+  ],
+  en:{short:"Alexander", date:"336 – 31 BC", title:"Greek goes global",
+    story:["Philip II of Macedon united the Greek cities under his rule. His son Alexander then crossed into Asia in 334 BC and, in eleven years, conquered the Persian Empire from Egypt to the Indus. He died in Babylon in 323 BC, aged 32.",
+           "His generals divided the empire into kingdoms ruled by Greek-speaking dynasties. Tens of thousands of Greeks and Macedonians moved east to new cities as soldiers, officials and merchants. A common form of Greek, the koine, became the language of trade and government from the Nile to Afghanistan, until Rome absorbed the last kingdom, Egypt, in 31 BC."],
+    lname:"Alexandria", ltext:"Founded by Alexander in 331 BC, Alexandria became the largest Greek city in the world, with a lighthouse that counted among the Seven Wonders and a library that tried to collect every book ever written.",
+    facts:["At Ai Khanoum, in northern Afghanistan, archaeologists found a Greek theatre, a huge gymnasium and moral sayings copied from Delphi, more than 4,000 km from Greece.",
+           "The New Testament was written in koine Greek."]},
+  pt:{short:"Alexandre", date:"336 – 31 a.C.", title:"O grego se torna global",
+    story:["Filipe II da Macedônia unificou as cidades gregas sob seu domínio. Seu filho Alexandre atravessou para a Ásia em 334 a.C. e, em onze anos, conquistou o Império Persa, do Egito ao rio Indo. Morreu na Babilônia em 323 a.C., aos 32 anos.",
+           "Seus generais dividiram o império em reinos governados por dinastias de língua grega. Dezenas de milhares de gregos e macedônios se mudaram para o leste, para novas cidades, como soldados, funcionários e mercadores. Uma forma comum de grego, a coiné, tornou-se a língua do comércio e do governo do Nilo ao Afeganistão, até que Roma absorveu o último reino, o Egito, em 31 a.C."],
+    lname:"Alexandria", ltext:"Fundada por Alexandre em 331 a.C., Alexandria se tornou a maior cidade grega do mundo, com um farol que estava entre as Sete Maravilhas e uma biblioteca que tentava reunir todos os livros já escritos.",
+    facts:["Em Ai Khanoum, no norte do Afeganistão, arqueólogos encontraram um teatro grego, um enorme ginásio e máximas morais copiadas de Delfos, a mais de 4 mil km da Grécia.",
+           "O Novo Testamento foi escrito em grego coiné."]}
+},
+/* XI */
+{
+  view:{c:[23,42], span:34}, art:"dome", spot:{c:[28.98,41.01], n:["Constantinople","Constantinopla"]},
+  routes:[
+    {kind:"conquest", pts:[[12.5,41.9],[15.5,41],[18.5,40.4],[20.5,39.2],[22.88,37.91]], label:["Rome, 146 BC","Roma, 146 a.C."], lf:.2},
+    {kind:"people", pts:[[28,51],[26.5,48.5],[24,46],[22.3,43.5],[21.9,41.2],[22.1,39.3],[22.2,37.4]], label:["Slavs, 6th–7th c.","Eslavos, séc. VI–VII"], lf:.18},
+    {kind:"conquest", pts:[[12.34,45.44],[15.5,43],[18.6,40.3],[20.5,38],[23.5,36.5],[26.5,38.2],[26.4,40.25],[28.98,41.01]], label:["Crusaders, 1204","Cruzados, 1204"], lf:.08}
+  ],
+  places:[
+    {n:["Constantinople","Constantinopla"], c:[28.98,41.01], t:["Capital from AD 330","Capital a partir de 330 d.C."]},
+    {n:["Thessaloniki","Tessalônica"], c:[22.94,40.64]},
+    {n:["Corinth","Corinto"], c:[22.88,37.91], t:["Destroyed by Rome, 146 BC","Destruída por Roma, 146 a.C."]},
+    {n:"Mystras", c:[22.37,37.07], t:["Last Byzantine centre of learning","Último centro de saber bizantino"]},
+    {n:["Venice","Veneza"], c:[12.34,45.44]}
+  ],
+  en:{short:"Rome, Byzantium, Slavs", date:"146 BC – AD 1453", title:"From Roman province to Byzantine heartland",
+    story:["Rome destroyed Corinth in 146 BC and turned Greece into a province, but Greek remained the language of the eastern Mediterranean. When Emperor Constantine moved the capital to Constantinople in AD 330, the eastern Roman Empire, later called Byzantine, became a Greek-speaking Christian state that lasted more than a thousand years.",
+           "In the 6th and 7th centuries, Slavic groups crossed the Danube and settled across the Balkans, including much of mainland Greece. Ancient DNA suggests that Slavic-related ancestry makes up about 30–40% of the ancestry of people from mainland Greece today, and up to 20% on the Aegean islands. Most Slavs in Greece adopted the Greek language and Orthodox faith over the following centuries."],
+    lname:"Constantinople", ltext:"Not in Greece today, but for a thousand years the Greek world's greatest city. Its church of Hagia Sophia, finished in 537, had the largest dome on Earth for centuries. Crusaders sacked the city in 1204, and the Ottomans conquered it in 1453.",
+    facts:["Byzantines called themselves Romans (Romaioi); the word 'Byzantine' was coined by later historians.",
+           "After 1204 Venice took Crete and many islands and ruled some of them for centuries."]},
+  pt:{short:"Roma, Bizâncio, eslavos", date:"146 a.C. – 1453 d.C.", title:"De província romana a coração bizantino",
+    story:["Roma destruiu Corinto em 146 a.C. e transformou a Grécia numa província, mas o grego continuou a ser a língua do Mediterrâneo oriental. Quando o imperador Constantino transferiu a capital para Constantinopla, em 330 d.C., o Império Romano do Oriente, mais tarde chamado bizantino, tornou-se um Estado cristão de língua grega que durou mais de mil anos.",
+           "Nos séculos VI e VII, grupos eslavos atravessaram o Danúbio e se fixaram em todos os Bálcãs, incluindo boa parte da Grécia continental. O DNA antigo sugere que a ancestralidade de tipo eslavo corresponde a cerca de 30–40% da ancestralidade das pessoas da Grécia continental hoje, e a até 20% nas ilhas do Egeu. A maioria dos eslavos da Grécia adotou a língua grega e a fé ortodoxa nos séculos seguintes."],
+    lname:"Constantinopla", ltext:"Hoje fora da Grécia, mas por mil anos a maior cidade do mundo grego. Sua igreja de Santa Sofia, concluída em 537, teve a maior cúpula do planeta durante séculos. Os cruzados saquearam a cidade em 1204, e os otomanos a conquistaram em 1453.",
+    facts:["Os bizantinos se chamavam de romanos (Romaioi); a palavra 'bizantino' foi criada por historiadores posteriores.",
+           "Depois de 1204, Veneza tomou Creta e muitas ilhas e governou algumas delas por séculos."]}
+},
+/* XII */
+{
+  view:{c:[20,40], span:46}, art:"minaret", spot:{c:[22.94,40.64], n:["Thessaloniki","Tessalônica"]},
+  routes:[
+    {kind:"conquest", pts:[[29.06,40.18],[28.98,41.01],[26.6,41.4],[24.5,40.9],[22.94,40.64],[22.4,39.6],[23.73,37.98]], label:["Ottomans","Otomanos"], lf:.35},
+    {kind:"people", pts:[[-3.7,40.4],[0.5,39.3],[5,38.5],[10,37.6],[14,37.2],[18,37.6],[21.5,37.4],[24.3,38.5],[23.3,40],[22.94,40.64]], label:["Sephardic Jews, 1492","Judeus sefarditas, 1492"], lf:.2},
+    {kind:"people", pts:[[19.82,41.33],[20.5,40],[21.4,38.9],[22.5,37.9]], label:["Arvanites","Arvanitas"], lf:.4},
+    {kind:"leave", pts:[[21.6,40.3],[20,43],[18.5,45.7],[16.37,48.2]], label:["Merchants to Vienna","Mercadores até Viena"], lf:.85},
+    {kind:"leave", pts:[[23.73,37.98],[26.4,40.25],[29.2,41.3],[30.5,43.5],[30.73,46.48]], label:["To Odessa","Até Odessa"], lf:.88}
+  ],
+  places:[
+    {n:["Thessaloniki","Tessalônica"], c:[22.94,40.64], t:["Majority-Jewish city for centuries","Cidade de maioria judaica por séculos"]},
+    {n:["Spain","Espanha"], c:[-3.7,40.4], t:["Expelled its Jews in 1492","Expulsou seus judeus em 1492"]},
+    {n:["Corfu","Corfu"], c:[19.92,39.62], t:["Venetian until 1797","Veneziana até 1797"]},
+    {n:["Candia (Heraklion)","Cândia (Heraclião)"], c:[25.13,35.34], t:["Venetian until 1669","Veneziana até 1669"]},
+    {n:["Vienna","Viena"], c:[16.37,48.2]},
+    {n:"Odessa", c:[30.73,46.48]}
+  ],
+  en:{short:"Ottoman Greece", date:"1453 – 1821", title:"Four centuries under the sultans",
+    story:["The Ottoman Turks took Thessaloniki in 1430, Constantinople in 1453 and Athens in 1458. Venice held on to Corfu and the Ionian Islands and, until 1669, to Crete. The Ottoman Empire mixed peoples: Muslim Turks settled in towns and plains, and Albanian-speaking Christians, the Arvanites, had already moved into Attica and the Peloponnese in the 14th and 15th centuries.",
+           "When Spain expelled its Jews in 1492, the sultan welcomed thousands to Thessaloniki. By the 1500s they were the majority of the city. Greek Orthodox merchants and sailors built trading networks from Vienna and Venice to Odessa, and their wealth and schools fed the ideas of independence."],
+    lname:"Thessaloniki", ltext:"For more than 400 years, Thessaloniki's streets spoke Judaeo-Spanish (Ladino), Greek and Turkish. In 1943 the German occupiers deported around 50,000 of its Jews to Auschwitz, where nearly all of them were murdered.",
+    facts:["Greek Orthodox Christians in the Ottoman Empire were governed as a community, the Rum millet, led by the Patriarch in Constantinople.",
+           "Many Arvanite villages around Athens spoke an Albanian dialect until the 20th century."]},
+  pt:{short:"Grécia otomana", date:"1453 – 1821", title:"Quatro séculos sob os sultões",
+    story:["Os turcos otomanos tomaram Tessalônica em 1430, Constantinopla em 1453 e Atenas em 1458. Veneza manteve Corfu e as ilhas Jônicas e, até 1669, Creta. O Império Otomano misturava povos: turcos muçulmanos se fixaram em cidades e planícies, e cristãos de língua albanesa, os arvanitas, já tinham se instalado na Ática e no Peloponeso nos séculos XIV e XV.",
+           "Quando a Espanha expulsou seus judeus em 1492, o sultão acolheu milhares deles em Tessalônica. No século XVI, eles já eram a maioria da cidade. Mercadores e marinheiros gregos ortodoxos criaram redes de comércio de Viena e Veneza até Odessa, e sua riqueza e suas escolas alimentaram as ideias de independência."],
+    lname:"Tessalônica", ltext:"Por mais de 400 anos, as ruas de Tessalônica falaram judeu-espanhol (ladino), grego e turco. Em 1943, os ocupantes alemães deportaram cerca de 50 mil de seus judeus para Auschwitz, onde quase todos foram assassinados.",
+    facts:["Os cristãos ortodoxos gregos do Império Otomano eram governados como uma comunidade, o millet Rum, liderado pelo Patriarca de Constantinopla.",
+           "Muitas aldeias arvanitas em volta de Atenas falaram um dialeto albanês até o século XX."]}
+},
+/* XIII */
+{
+  view:{c:[29,39.5], span:24}, art:"steamer", spot:{c:ATH, n:["Athens and Piraeus","Atenas e Pireu"]},
+  routes:[
+    {kind:"people", tv:"ship", pts:[[27.14,38.42],[26.2,38.3],[25,37.9],[23.63,37.94]], label:["From Smyrna, 1922","De Esmirna, 1922"], lf:.25},
+    {kind:"people", tv:"ship", pts:[[39.72,41.0],[35.5,42.2],[31,41.6],[29.05,41.1],[27,40.4],[25,40.3],[22.94,40.64]], label:["From Pontus","Do Ponto"], lf:.15},
+    {kind:"people", pts:[[34.8,38.6],[31,39.3],[28.98,41.01]], label:["Cappadocia","Capadócia"], lf:.3},
+    {kind:"people", pts:[[26.6,41.7],[25,41.2],[23.5,40.9],[22.94,40.64]], label:["Eastern Thrace","Trácia Oriental"], lf:.15, la:"end"},
+    {kind:"leave", pts:[[22.94,40.64],[24.5,40.4],[26.2,40.1],[27.5,40.4]], label:["Muslims to Turkey","Muçulmanos para a Turquia"], lf:.8}
+  ],
+  places:[
+    {n:["Smyrna (İzmir)","Esmirna (Izmir)"], c:[27.14,38.42], t:["Burned in September 1922","Incendiada em setembro de 1922"]},
+    {n:["Trabzon","Trebizonda"], c:[39.72,41.0]},
+    {n:"Nafplio", c:[22.8,37.57], t:["First capital, 1829–1834","Primeira capital, 1829–1834"]},
+    {n:["Thessaloniki","Tessalônica"], c:[22.94,40.64]},
+  ],
+  en:{short:"Independence and exchange", date:"1821 – 1923", title:"A new state and a million refugees",
+    story:["The War of Independence began in 1821, and in 1830 a small Greek kingdom was recognized. Nafplio was its first capital; Athens, then a small town, replaced it in 1834. Over the next century the country grew northward, but millions of Greeks still lived in the Ottoman Empire, in Constantinople, Smyrna, Cappadocia and on the Black Sea coast of Pontus.",
+           "After defeat in a war with Turkey, the Greek army withdrew from Anatolia in 1922 and Smyrna burned. In January 1923 the two countries agreed a compulsory population exchange based on religion. About 1.2 million Orthodox Christians came to Greece, and about 355,000–400,000 Muslims left Greece for Turkey. In the 1928 census, refugees were about one in five of Greece's people."],
+    lname:"Athens and Piraeus", ltext:"Refugees built whole new neighbourhoods, often named after the homes they had lost: Nea Smyrni (New Smyrna), Nea Ionia, Kaisariani. They brought dishes, saints, dialects and rebetiko, the 'Greek blues'.",
+    facts:["The exchange was based on religion, not language: many Orthodox refugees from Cappadocia spoke Turkish, and many Muslims from Crete spoke Greek.",
+           "In the 1928 census, refugees made up about 45% of the population of Greek Macedonia."]},
+  pt:{short:"Independência e troca", date:"1821 – 1923", title:"Um novo Estado e um milhão de refugiados",
+    story:["A Guerra de Independência começou em 1821, e em 1830 um pequeno reino grego foi reconhecido. Náuplia foi a primeira capital; Atenas, então uma cidade pequena, a substituiu em 1834. No século seguinte, o país cresceu para o norte, mas milhões de gregos ainda viviam no Império Otomano, em Constantinopla, Esmirna, na Capadócia e no litoral do mar Negro, o Ponto.",
+           "Depois de perder uma guerra contra a Turquia, o exército grego se retirou da Anatólia em 1922, e Esmirna foi incendiada. Em janeiro de 1923, os dois países acordaram uma troca obrigatória de populações com base na religião. Cerca de 1,2 milhão de cristãos ortodoxos vieram para a Grécia, e cerca de 355 mil a 400 mil muçulmanos deixaram a Grécia rumo à Turquia. No censo de 1928, os refugiados eram cerca de um em cada cinco habitantes da Grécia."],
+    lname:"Atenas e Pireu", ltext:"Os refugiados construíram bairros inteiros, muitas vezes com o nome das terras que tinham perdido: Nea Smyrni (Nova Esmirna), Nea Ionia, Kaisariani. Trouxeram pratos, santos, dialetos e o rebetiko, o 'blues grego'.",
+    facts:["A troca foi baseada na religião, não na língua: muitos refugiados ortodoxos da Capadócia falavam turco, e muitos muçulmanos de Creta falavam grego.",
+           "No censo de 1928, os refugiados eram cerca de 45% da população da Macedônia grega."]}
+},
+/* XIV */
+{
+  view:{c:[40,20], span:220}, art:"dinghy", spot:{c:ATH, n:["Athens","Atenas"]},
+  routes:[
+    {kind:"leave", tv:"ship", pts:[[23.63,37.94],[10,37.5],[-6,36],[-30,39],[-55,41],[-74,40.7]], label:["To the USA","Para os EUA"], lf:.6},
+    {kind:"leave", tv:"ship", pts:[[23.63,37.94],[32.3,31.2],[43.5,12.6],[60,8],[80,5],[105,-10],[125,-25],[144.96,-37.81]], label:["To Australia","Para a Austrália"], lf:.62},
+    {kind:"leave", tv:"plane", pts:[[22.94,40.64],[19,45],[14,47.5],[9.18,48.78]], label:["To Germany, 1960s","Para a Alemanha, anos 1960"], lf:.75},
+    {kind:"people", pts:[[19.82,41.33],[20.8,39.8],[22.2,38.6],[23.73,37.98]], label:["From Albania, 1990s","Da Albânia, anos 1990"], lf:.3},
+    {kind:"people", pts:[[69.2,34.5],[60,35.5],[51.4,35.7],[44,38.2],[37,37.3],[30,38.6],[26.8,39.3],[26.55,39.11]], label:["2015 crossings","Travessias de 2015"], lf:.3},
+    {kind:"people", pts:[[36.3,33.5],[36.6,36.2]]}
+  ],
+  places:[
+    {n:["New York","Nova York"], c:[-74,40.7]},
+    {n:"Melbourne", c:[144.96,-37.81], t:["One of the largest Greek communities abroad","Uma das maiores comunidades gregas no exterior"]},
+    {n:"Stuttgart", c:[9.18,48.78]},
+    {n:["Tirana","Tirana"], c:[19.82,41.33]},
+    {n:["Lesbos","Lesbos"], c:[26.55,39.11], t:["Main landing point in 2015","Principal ponto de chegada em 2015"]},
+    {n:["Kabul","Cabul"], c:[69.2,34.5]},
+    {n:["Damascus","Damasco"], c:[36.3,33.5]}
+  ],
+  en:{short:"Today", date:"1890s – today", title:"A country of departures, then of arrivals",
+    story:["For a century Greece was a land people left. Hundreds of thousands sailed to the United States before the 1920s. After the Second World War and the civil war, about 220,000 emigrated in the 1950s and 406,000 in the 1960s, many to Australia, Canada and West Germany, which signed a labour agreement with Greece in 1960. During the debt crisis of the 2010s, many young Greeks left again.",
+           "Since 1990 Greece has also become a country of arrival: first Albanians, the largest group ever since, and Pontic Greeks from the former Soviet Union; then people from Asia and Africa. In 2015 more than 850,000 refugees and migrants, mostly from Syria, Afghanistan and Iraq, crossed by sea from Turkey to the Greek islands. In mid-2025 about 900,000 people lived legally in Greece as migrants, EU citizens or refugees."],
+    lname:"Athens today", ltext:"Neighbourhoods such as Kypseli and Patissia mix Greek, Albanian, Georgian, Chinese, Pakistani and Afghan shops and voices, a short walk from the Acropolis that has watched every wave arrive.",
+    facts:["Melbourne has one of the largest Greek populations of any city outside Greece.",
+           "Lesbos, about 10 km from the Turkish coast at its closest point, received a large share of the 2015 sea arrivals."]},
+  pt:{short:"Hoje", date:"anos 1890 – hoje", title:"Um país de partidas, e depois de chegadas",
+    story:["Durante um século, a Grécia foi uma terra de onde se partia. Centenas de milhares embarcaram para os Estados Unidos antes dos anos 1920. Depois da Segunda Guerra Mundial e da guerra civil, cerca de 220 mil emigraram nos anos 1950 e 406 mil nos anos 1960, muitos para a Austrália, o Canadá e a Alemanha Ocidental, que assinou um acordo de trabalho com a Grécia em 1960. Durante a crise da dívida dos anos 2010, muitos jovens gregos partiram de novo.",
+           "Desde 1990, a Grécia também se tornou um país de chegada: primeiro os albaneses, desde então o maior grupo, e os gregos pônticos da antiga União Soviética; depois pessoas da Ásia e da África. Em 2015, mais de 850 mil refugiados e migrantes, sobretudo da Síria, do Afeganistão e do Iraque, atravessaram de barco da Turquia para as ilhas gregas. Em meados de 2025, cerca de 900 mil pessoas viviam legalmente na Grécia como migrantes, cidadãos da UE ou refugiados."],
+    lname:"Atenas hoje", ltext:"Bairros como Kypseli e Patissia misturam lojas e vozes gregas, albanesas, georgianas, chinesas, paquistanesas e afegãs, a poucos passos da Acrópole, que viu chegar todas as ondas.",
+    facts:["Melbourne tem uma das maiores populações gregas de qualquer cidade fora da Grécia.",
+           "Lesbos, a cerca de 10 km da costa turca no ponto mais próximo, recebeu uma grande parte das chegadas por mar de 2015."]}
+}
+  ],
+  dna:{
+    title:["LAYERS OF ANCESTRY IN GREECE","CAMADAS DE ANCESTRALIDADE NA GRÉCIA"], pct:false,
+    items:[
+      {n:["Ice Age hunter-gatherers","Caçadores-coletores da Era do Gelo"], v:5, c:"#7b6a4f", at:1, w:["small, oldest layer","pequena, a mais antiga"]},
+      {n:["First farmers (Anatolia)","Primeiros agricultores (Anatólia)"], v:48, c:"#a0522d", at:3, w:["main layer","camada principal"]},
+      {n:["Caucasus and Iran-related","Ligada ao Cáucaso e ao Irã"], v:12, c:"#2f5d62", at:4, w:["arrived by the Bronze Age","chegou até a Idade do Bronze"]},
+      {n:["Steppe herders","Pastores da estepe"], v:8, c:"#c9973f", at:5, w:["minor, from Mycenaean times","menor, desde a época micênica"]},
+      {n:["Slavic-related","De tipo eslavo"], v:27, c:"#5b3f6e", at:10, w:["c. 30–40% mainland, up to 20% islands","c. 30–40% no continente, até 20% nas ilhas"]}
+    ],
+    note:["Illustrative shares only. Ancient-DNA studies found that Minoans and Mycenaeans had at least three-quarters of their ancestry from the first farmers, and that Slavic-related ancestry is about 30–40% on the mainland today and up to 20% on the Aegean islands. Proportions vary by region and study.",
+          "Proporções apenas ilustrativas. Estudos de DNA antigo mostraram que minoicos e micênicos tinham pelo menos três quartos de sua ancestralidade vinda dos primeiros agricultores, e que a ancestralidade de tipo eslavo é hoje de cerca de 30–40% no continente e de até 20% nas ilhas do Egeu. As proporções variam por região e por estudo."]
+  },
+  quiz:[
+    {a:2, en:{q:"What makes the Apidima skull fragment famous?", o:["It is the oldest Neanderthal ever found","It proves humans began in Greece","It may be the oldest Homo sapiens fossil outside Africa","It was found on Crete"], e:"Researchers dated it to at least 210,000 years ago, though the claim is debated."},
+          pt:{q:"Por que o fragmento de crânio de Apidima é famoso?", o:["É o neandertal mais antigo já encontrado","Prova que os humanos surgiram na Grécia","Pode ser o fóssil de Homo sapiens mais antigo fora da África","Foi encontrado em Creta"], e:"Pesquisadores o dataram em pelo menos 210 mil anos, embora a afirmação seja debatida."}},
+    {a:1, en:{q:"Why does obsidian from Melos found at Franchthi Cave matter?", o:["It is the oldest pottery in Europe","It proves people were crossing the sea by boat","It shows Neanderthals made tools","It was used as money"], e:"Melos was always an island, so the obsidian could only have arrived by boat, more than 12,000 years ago."},
+          pt:{q:"Por que a obsidiana de Milos encontrada na Caverna de Franchthi é importante?", o:["É a cerâmica mais antiga da Europa","Prova que as pessoas atravessavam o mar de barco","Mostra que os neandertais faziam ferramentas","Era usada como dinheiro"], e:"Milos sempre foi uma ilha, então a obsidiana só podia chegar de barco, há mais de 12 mil anos."}},
+    {a:0, en:{q:"Where did the first farmers who reached Greece come from?", o:["Anatolia (today's Turkey)","Egypt","The steppes north of the Black Sea","Italy"], e:"They arrived around 7000 BC, by sea and through Thrace."},
+          pt:{q:"De onde vieram os primeiros agricultores que chegaram à Grécia?", o:["Da Anatólia (atual Turquia)","Do Egito","Das estepes ao norte do mar Negro","Da Itália"], e:"Chegaram por volta de 7000 a.C., por mar e pela Trácia."}},
+    {a:3, en:{q:"Which script did the Minoans use that nobody can read yet?", o:["Linear B","Cuneiform","The Greek alphabet","Linear A"], e:"Linear B, used later by the Mycenaeans, was deciphered in 1952; Linear A was not."},
+          pt:{q:"Qual escrita os minoicos usavam que ninguém consegue ler ainda?", o:["Linear B","Cuneiforme","O alfabeto grego","Linear A"], e:"A Linear B, usada depois pelos micênicos, foi decifrada em 1952; a Linear A, não."}},
+    {a:1, en:{q:"What did the Greeks add when they borrowed the Phoenician alphabet?", o:["Numbers","Letters for vowels","Accents for music","Nothing"], e:"Adding vowels created a full alphabet that later gave rise to Latin and Cyrillic."},
+          pt:{q:"O que os gregos acrescentaram quando adotaram o alfabeto fenício?", o:["Números","Letras para as vogais","Acentos musicais","Nada"], e:"Acrescentar as vogais criou um alfabeto completo, que mais tarde deu origem ao latino e ao cirílico."}},
+    {a:2, en:{q:"Which French city began as the Greek colony of Massalia?", o:["Nice","Lyon","Marseille","Bordeaux"], e:"Settlers from Phocaea founded it around 600 BC."},
+          pt:{q:"Qual cidade francesa começou como a colônia grega de Massália?", o:["Nice","Lyon","Marselha","Bordéus"], e:"Colonos de Foceia a fundaram por volta de 600 a.C."}},
+    {a:0, en:{q:"How far east did Greek cities spread after Alexander?", o:["To Afghanistan and the Indus","Only to Egypt","Only to Cyprus","To China"], e:"Ai Khanoum, in northern Afghanistan, had a Greek theatre and gymnasium."},
+          pt:{q:"Até onde, no leste, se espalharam as cidades gregas depois de Alexandre?", o:["Até o Afeganistão e o Indo","Só até o Egito","Só até Chipre","Até a China"], e:"Ai Khanoum, no norte do Afeganistão, tinha teatro e ginásio gregos."}},
+    {a:1, en:{q:"Who settled across much of mainland Greece in the 6th and 7th centuries?", o:["Vikings","Slavs","Arabs","Celts"], e:"Ancient DNA suggests Slavic-related ancestry is about 30–40% on the mainland today."},
+          pt:{q:"Quem se fixou em boa parte da Grécia continental nos séculos VI e VII?", o:["Vikings","Eslavos","Árabes","Celtas"], e:"O DNA antigo sugere que a ancestralidade de tipo eslavo é hoje de cerca de 30–40% no continente."}},
+    {a:3, en:{q:"In the 1923 population exchange, people were sorted by...", o:["Language","Place of birth","Wealth","Religion"], e:"Orthodox Christians went to Greece and Muslims to Turkey, whatever language they spoke."},
+          pt:{q:"Na troca de populações de 1923, as pessoas foram separadas por...", o:["Língua","Local de nascimento","Riqueza","Religião"], e:"Cristãos ortodoxos foram para a Grécia e muçulmanos para a Turquia, qualquer que fosse a língua que falavam."}},
+    {a:2, en:{q:"Which is the largest group of non-EU migrants living in Greece today?", o:["Syrians","Chinese","Albanians","Georgians"], e:"About 269,000 of 508,000 third-country nationals with permits were Albanian in mid-2025."},
+          pt:{q:"Qual é o maior grupo de migrantes de fora da UE que vivem hoje na Grécia?", o:["Sírios","Chineses","Albaneses","Georgianos"], e:"Cerca de 269 mil dos 508 mil estrangeiros de fora da UE com autorização eram albaneses em meados de 2025."}}
+  ]
+};
+
+/* the spotlight already marks its place: drop duplicate place markers */
+COUNTRIES.greece.eras.forEach(e => { e.places = e.places.filter(pl => Math.hypot(pl.c[0]-e.spot.c[0], pl.c[1]-e.spot.c[1]) > 0.08); });
+
+/* origin charts */
+COUNTRIES.greece.eras[12].origins = {
+  title:["Where the refugees came from","De onde vieram os refugiados"], pct:false,
+  items:[
+    {n:["Western Anatolia (Asia Minor)","Anatólia Ocidental (Ásia Menor)"], c:["Smyrna, Ionian coast","Esmirna, costa jônica"], v:650000},
+    {n:["Pontus","Ponto"], c:["Black Sea coast of Turkey","costa do mar Negro na Turquia"], v:280000},
+    {n:["Eastern Thrace","Trácia Oriental"], v:260000},
+    {n:["Cappadocia","Capadócia"], v:60000},
+    {n:["Caucasus","Cáucaso"], v:50000},
+    {n:["Bulgaria","Bulgária"], v:50000},
+    {n:["Constantinople","Constantinopla"], v:40000},
+    {n:["South shore of the Sea of Marmara","Costa sul do mar de Mármara"], v:20000},
+    {n:["Crimea","Crimeia"], v:12000}
+  ],
+  note:["Approximate figures by region of origin, including people who fled before the 1923 agreement; the total is higher than the 1.2 million of the exchange itself, and sources differ.",
+        "Números aproximados por região de origem, incluindo pessoas que fugiram antes do acordo de 1923; o total é maior do que o 1,2 milhão da troca em si, e as fontes divergem."]
+};
+COUNTRIES.greece.eras[13].origins = {
+  title:["Main non-EU nationalities today","Principais nacionalidades de fora da UE hoje"], rank:true,
+  items:[
+    {n:["Albania","Albânia"], extra:["268,964 people, over half of all","268.964 pessoas, mais da metade"]},
+    {n:["China","China"]}, {n:["Pakistan","Paquistão"]}, {n:["Georgia","Geórgia"]}, {n:["Bangladesh","Bangladesh"]},
+    {n:["Russia","Rússia"]}, {n:["Ukraine","Ucrânia"]}
+  ],
+  note:["Third-country nationals with residence permits, 31 July 2025 (508,499 people; Ministry of Migration and Asylum). Recognized refugees are counted separately: the largest groups are Afghans (29,859) and Syrians (17,976).",
+        "Estrangeiros de fora da UE com autorização de residência em 31 de julho de 2025 (508.499 pessoas; Ministério da Migração e Asilo). Os refugiados reconhecidos são contados à parte: os maiores grupos são afegãos (29.859) e sírios (17.976)."]
+};
+
+COUNTRIES.greece.refs = [
+  REF_JEBEL,
+  {ch:[0], t:["Recovered chunk of skull is 'oldest human fossil outside Africa' (Apidima)","Fragmento de crânio é o 'fóssil humano mais antigo fora da África' (Apidima)"], s:"Al Jazeera, 2019", u:"https://www.aljazeera.com/news/2019/7/10/recovered-chunk-of-skull-is-oldest-human-fossil-outside-africa"},
+  {ch:[1], t:["Oldest man-made structure found in Greek cave (Theopetra)","Construção humana mais antiga encontrada em caverna grega (Theopetra)"], s:"History News Network", u:"https://www.historynewsnetwork.org/article/oldest-man-made-structure-found-in-greek-cave"},
+  {ch:[1,2,3], t:["Franchthi Cave","Caverna de Franchthi"], s:"Wikipedia", u:"https://en.wikipedia.org/wiki/Franchthi_Cave"},
+  {ch:[3,4,5,"dna"], t:["Genetic origins of the Minoans and Mycenaeans","Origens genéticas dos minoicos e micênicos"], s:"Lazaridis et al., Nature, 2017 (University of Athens repository)", u:"https://pergamos.lib.uoa.gr/uoa/dl/object/3056674"},
+  {ch:[4,5,"dna"], t:["Minoans and Mycenaeans descended from Anatolian migrants, ancient DNA study suggests","Minoicos e micênicos descendem de migrantes da Anatólia, sugere estudo de DNA antigo"], s:"Sci.News, 2017", u:"https://www.sci.news/genetics/minoans-mycenaeans-anatolian-migrants-05100.html"},
+  {ch:[5], t:["Decoding Linear B","Decifrando a Linear B"], s:"History Today", u:"https://www.historytoday.com/archive/months-past/decoding-linear-b"},
+  {ch:[5], t:["Archaeological Sites of Mycenae and Tiryns","Sítios Arqueológicos de Micenas e Tirinto"], s:"UNESCO World Heritage Centre", u:"https://whc.unesco.org/en/list/941"},
+  {ch:[7], t:["Greek colonization: timeline","Colonização grega: cronologia"], s:"World History Encyclopedia", u:"https://worldhistory.org/timeline/Greek_Colonization"},
+  {ch:[8], t:["Acropolis, Athens","Acrópole, Atenas"], s:"UNESCO World Heritage Centre", u:"https://whc.unesco.org/en/list/404"},
+  {ch:[9], t:["Ai Khanoum","Ai Khanoum"], s:"Wikipedia (archived copy)", u:"https://webcf.waybackmachine.org/web/20211019210723/https://en.wikipedia.org/wiki/Ai_Khanoum"},
+  {ch:[10,"dna"], t:["Ancient DNA reveals the genetic history of the Balkans from the Roman frontier to the Slavic migrations","DNA antigo revela a história genética dos Bálcãs, da fronteira romana às migrações eslavas"], s:"Olalde et al., Cell, 2023 (EurekAlert news release)", u:"https://www.eurekalert.org/news-releases/1009679"},
+  {ch:[11], t:["History of the Jews in Thessaloniki","História dos judeus em Tessalônica"], s:"Wikipedia", u:"https://en.wikipedia.org/wiki/History_of_the_Jews_in_Thessaloniki"},
+  {ch:[12], t:["Population exchange between Greece and Turkey","Troca de populações entre a Grécia e a Turquia"], s:"Wikipedia", u:"https://en.wikipedia.org/wiki/Population_exchange_between_Greece_and_Turkey"},
+  {ch:[13], t:["Greece: historical development of migration","Grécia: desenvolvimento histórico da migração"], s:"Triandafyllidou, Bundeszentrale für politische Bildung, 2014", u:"https://www.bpb.de/themen/migration-integration/regionalprofile/english-version-country-profiles/186438/historical-development-of-migration/"},
+  {ch:[13], t:["March 30, 1960: Greece–Germany labour agreement","30 de março de 1960: acordo de trabalho Grécia–Alemanha"], s:"Cosmos Philly", u:"https://cosmosphilly.com/march-30-1960-greece-germany-labor-agreement/"},
+  {ch:[13], t:["Greece: 2015 year-end report summary","Grécia: resumo do relatório de fim de ano de 2015"], s:"UNHCR", u:"https://reporting.unhcr.org/node/10936"},
+  {ch:[13], t:["Migration and migration policy in Greece","Migração e política migratória na Grécia"], s:"Dimitriadi, Bundeszentrale für politische Bildung, 2022", u:"https://www.bpb.de/themen/migration-integration/regionalprofile/english-version-country-profiles/505134/migration-and-migration-policy-in-greece/"},
+  {ch:[13], t:["How many legal migrants and golden visa holders are in Greece (Ministry data, July 2025)","Quantos migrantes legais e titulares de golden visa há na Grécia (dados do Ministério, julho de 2025)"], s:"Proto Thema, 2025", u:"https://en.protothema.gr/2025/08/23/how-many-legal-migrants-and-how-many-golden-visa-holders-are-in-greece/"}
+];
+
+/* ===================== ITALY ===================== */
+const ROMA = [12.49, 41.89];
+COUNTRIES.italy = {
+  id:"italy", iso:"380", art:"colosseum",
+  name:["Italy","Itália"],
+  sub:["Italy: 170,000 years in the middle of the Mediterranean","Itália: 170 mil anos no meio do Mediterrâneo"],
+  span:["170,000 years ago – today","há 170 mil anos – hoje"],
+  stat:[["170,000","170 mil"],["years of history","anos de história"]],
+  intro:["Italy reaches into the middle of the Mediterranean like a long pier, with the Alps behind it and Sicily almost touching Africa. Hunters, farmers, Greeks, Phoenicians, Goths, Arabs and Normans all landed here, and Rome pulled in people from three continents. Then, in a single century, millions of Italians left for the Americas, many of them for Brazil. Follow them, chapter by chapter, to the present day.",
+         "A Itália avança pelo meio do Mediterrâneo como um longo cais, com os Alpes atrás e a Sicília quase tocando a África. Caçadores, agricultores, gregos, fenícios, godos, árabes e normandos desembarcaram aqui, e Roma atraiu gente de três continentes. Depois, em um único século, milhões de italianos partiram para as Américas, muitos deles para o Brasil. Acompanhe-os, capítulo a capítulo, até os dias de hoje."],
+  eras:[
+/* I */
+{
+  view:{c:[30,25], span:90}, art:"walkers", spot:{c:[18.0,40.15], n:["Grotta del Cavallo","Grotta del Cavallo"]},
+  routes:[
+    {kind:"people", pts:[[37,6],[40,14],[38,24],[34,30],[36,33]], label:["Out of Africa","Saída da África"]},
+    {kind:"people", pts:[[36,33],[34.5,36.8],[30,39.8],[26,41.2],[22,41.3],[19.8,40.7],[18.0,40.15]], label:["Into Europe","Rumo à Europa"], lf:.5}
+  ],
+  places:[
+    {n:"Jebel Irhoud", c:[-8.87,31.85], t:["Oldest Homo sapiens fossils, ~300,000 years","Fósseis de Homo sapiens mais antigos, c. 300 mil anos"]},
+    {n:"Omo Kibish", c:[35.9,5.4], t:["Early Homo sapiens fossils","Fósseis antigos de Homo sapiens"]},
+    {n:"Altamura", c:[16.55,40.83], t:["Neanderthal, 172,000–130,000 years old","Neandertal de 172 mil–130 mil anos"]}
+  ],
+  en:{short:"Neanderthal Italy", date:"c. 170,000 – 45,000 years ago", title:"Neanderthals, then the first Europeans",
+    story:["Long before our species arrived, Italy belonged to the Neanderthals. In 1993 cave explorers near Altamura, in Apulia, found a Neanderthal skeleton fused into the rock of a cave, between 172,000 and 130,000 years old. A bone fragment yielded the oldest Neanderthal DNA ever recovered at the time.",
+           "Homo sapiens, which had left Africa about 60,000 to 70,000 years ago, came through the Middle East and the Balkans. Two baby teeth from Grotta del Cavallo, a cave on the heel of Italy, are about 45,000 years old and look modern rather than Neanderthal: they are among the oldest remains of modern humans in Europe."],
+    lname:"Grotta del Cavallo", ltext:"The teeth were found in 1964 and labelled Neanderthal. Only in 2011 did 3D scans show they belonged to modern humans, makers of the Uluzzian culture, with bone tools, shell beads and pigments.",
+    facts:["Altamura Man has never been removed from the cave: his bones are coated in calcite and fused into the rock.",
+           "Neanderthals and modern humans probably shared Italy for several thousand years."]},
+  pt:{short:"Itália neandertal", date:"há c. 170 mil – 45 mil anos", title:"Neandertais, e depois os primeiros europeus",
+    story:["Muito antes de a nossa espécie chegar, a Itália pertencia aos neandertais. Em 1993, espeleólogos perto de Altamura, na Apúlia, encontraram um esqueleto neandertal fundido na rocha de uma caverna, com idade entre 172 mil e 130 mil anos. Um fragmento de osso forneceu o DNA neandertal mais antigo já recuperado até então.",
+           "O Homo sapiens, que tinha saído da África há cerca de 60 a 70 mil anos, chegou pelo Oriente Médio e pelos Bálcãs. Dois dentes de leite da Grotta del Cavallo, uma caverna no 'salto da bota' italiana, têm cerca de 45 mil anos e parecem modernos, não neandertais: estão entre os restos mais antigos de humanos modernos na Europa."],
+    lname:"Grotta del Cavallo", ltext:"Os dentes foram encontrados em 1964 e classificados como neandertais. Só em 2011 exames em 3D mostraram que pertenciam a humanos modernos, criadores da cultura uluzziana, com ferramentas de osso, contas de conchas e pigmentos.",
+    facts:["O Homem de Altamura nunca foi retirado da caverna: seus ossos estão cobertos de calcita e fundidos na rocha.",
+           "Neandertais e humanos modernos provavelmente dividiram a Itália por vários milênios."]}
+},
+/* II */
+{
+  view:{c:[14,43], span:22}, art:"mammoth", spot:{c:[13.35,38.18], n:["Addaura caves","Grutas de Addaura"]},
+  routes:[
+    {kind:"people", pts:[[25,44.5],[20,45.8],[16,46.2],[13.2,45.9],[11.5,45.5]], label:["From the Balkans","Dos Bálcãs"], lf:.3},
+    {kind:"people", pts:[[13.2,45.9],[13.8,44],[15.5,42.2],[16.4,40.5],[16.2,39],[15.6,38.2],[13.35,38.18]], label:["South to Sicily","Para o sul, até a Sicília"], lf:.55}
+  ],
+  places:[
+    {n:"Grotta del Cavallo", c:[18.0,40.15]},
+    {n:["Adriatic plain (dry land)","Planície do Adriático (terra seca)"], c:[13.6,44.6], t:["Ice Age sea level was ~120 m lower","No auge do gelo o mar estava c. 120 m mais baixo"]}
+  ],
+  en:{short:"Ice Age hunters", date:"c. 45,000 – 10,000 years ago", title:"Hunters in a refuge",
+    story:["Modern humans spread through the whole peninsula, and within a few thousand years the Neanderthals were gone. When the Ice Age reached its peak, about 20,000 years ago, glaciers covered the Alps, but southern Italy stayed mild enough to be a refuge for people and animals.",
+           "With so much water locked in ice, the sea was far lower. The northern Adriatic was a grassy plain where hunters followed deer, horses and bison, and Sicily was almost joined to the mainland. As the ice melted, new groups of hunter-gatherers spread into Italy and the rest of Europe from the south-east."],
+    lname:"Addaura caves", ltext:"On Monte Pellegrino, above Palermo, Ice Age artists engraved a scene of human figures around two bound men, one of the most mysterious pictures of the period. Its meaning, a dance, a ritual or an execution, is still debated.",
+    facts:["Venice, Trieste and the Po delta lay far inland during the Ice Age; the Adriatic coast was hundreds of kilometres further south-east.",
+           "Dwarf elephants once lived on Sicily, descended from mainland elephants that swam or walked across at times of low sea."]},
+  pt:{short:"Caçadores da Era do Gelo", date:"há c. 45 mil – 10 mil anos", title:"Caçadores num refúgio",
+    story:["Os humanos modernos se espalharam por toda a península e, em poucos milênios, os neandertais desapareceram. No auge da Era do Gelo, há cerca de 20 mil anos, geleiras cobriam os Alpes, mas o sul da Itália continuou ameno o bastante para servir de refúgio a pessoas e animais.",
+           "Com tanta água presa no gelo, o mar estava muito mais baixo. O norte do Adriático era uma planície de capim onde caçadores seguiam cervos, cavalos e bisões, e a Sicília quase se ligava ao continente. Quando o gelo derreteu, novos grupos de caçadores-coletores entraram na Itália e no resto da Europa vindos do sudeste."],
+    lname:"Grutas de Addaura", ltext:"No Monte Pellegrino, acima de Palermo, artistas da Era do Gelo gravaram uma cena de figuras humanas em volta de dois homens amarrados, uma das imagens mais misteriosas do período. Seu significado, uma dança, um ritual ou uma execução, ainda é debatido.",
+    facts:["Veneza, Trieste e o delta do Pó ficavam bem para o interior na Era do Gelo; a costa do Adriático ficava centenas de quilômetros mais a sudeste.",
+           "Elefantes-anões viveram na Sicília, descendentes de elefantes do continente que atravessaram nadando ou a pé em épocas de mar baixo."]}
+},
+/* III */
+{
+  view:{c:[15,40], span:24}, art:"farm", spot:{c:[15.6,41.5], n:["Tavoliere plain","Planície do Tavoliere"]},
+  routes:[
+    {kind:"people", pts:[[22.84,39.36],[21,39.4],[19.6,40.1],[17.9,40.7],[15.6,41.5]], label:["Farmers by boat","Agricultores de barco"], lf:.45},
+    {kind:"people", pts:[[17.9,40.7],[16.8,39.2],[15.6,38.1],[13.5,38.5],[10.5,39.4],[9.4,40.4],[8.8,42.2],[6.5,43.1]], label:["Along the Tyrrhenian coasts","Pelas costas do Tirreno"], lf:.6},
+    {kind:"trade", pts:[[14.95,38.47],[14,40],[12.5,41.7],[11,43.4]]}
+  ],
+  places:[
+    {n:["Lipari","Lipari"], c:[14.95,38.47], t:["Obsidian traded across Italy","Obsidiana comerciada por toda a Itália"]},
+    {n:["Sardinia","Sardenha"], c:[9.0,40.1]},
+    {n:["Sesklo (Greece)","Sesklo (Grécia)"], c:[22.84,39.36]}
+  ],
+  en:{short:"First farmers", date:"c. 6000 – 3500 BC", title:"Farmers arrive by sea",
+    story:["Around 6000 BC, descendants of the farmers who had reached Greece from Anatolia crossed the narrow sea to Apulia, carrying seed, sheep, goats and pottery decorated with shell impressions. From there, small boats carried farming along the coasts of Sicily, Sardinia, Corsica and southern France.",
+           "Ancient DNA shows that across Italy, as in the rest of Europe, the newcomers' ancestry largely replaced that of the local hunter-gatherers. On Sardinia, the early farmers' descendants stayed relatively isolated, which is why Sardinians today are among the Europeans closest to the first farmers."],
+    lname:"Tavoliere plain", ltext:"On the flat Tavoliere plain around Foggia, aerial photos have revealed hundreds of Neolithic villages surrounded by ditches. Passo di Corvo, one of the largest, had dozens of ring-shaped enclosures for houses and herds.",
+    facts:["Black obsidian from the volcanic island of Lipari was traded hundreds of kilometres, as far as northern Italy and France.",
+           "The first farmers' pottery is called Impressed Ware because it was decorated by pressing shells, often cockles, into the wet clay."]},
+  pt:{short:"Primeiros agricultores", date:"c. 6000 – 3500 a.C.", title:"Os agricultores chegam pelo mar",
+    story:["Por volta de 6000 a.C., descendentes dos agricultores que tinham chegado à Grécia vindos da Anatólia atravessaram o estreito mar até a Apúlia, levando sementes, ovelhas, cabras e cerâmica decorada com impressões de conchas. Dali, pequenos barcos levaram a agricultura pelas costas da Sicília, da Sardenha, da Córsega e do sul da França.",
+           "O DNA antigo mostra que, na Itália como no resto da Europa, a ancestralidade dos recém-chegados substituiu em grande parte a dos caçadores-coletores locais. Na Sardenha, os descendentes dos primeiros agricultores ficaram relativamente isolados, e por isso os sardos de hoje estão entre os europeus mais próximos dos primeiros agricultores."],
+    lname:"Planície do Tavoliere", ltext:"Na plana planície do Tavoliere, perto de Foggia, fotos aéreas revelaram centenas de aldeias neolíticas cercadas por valas. Passo di Corvo, uma das maiores, tinha dezenas de recintos circulares para casas e rebanhos.",
+    facts:["A obsidiana negra da ilha vulcânica de Lipari era comerciada a centenas de quilômetros, até o norte da Itália e a França.",
+           "A cerâmica dos primeiros agricultores é chamada de cerâmica impressa, porque era decorada pressionando conchas na argila molhada."]}
+},
+/* IV */
+{
+  view:{c:[16,44], span:30}, art:"iceman", spot:{c:[10.84,46.78], n:["Ötzi's glacier","A geleira de Ötzi"]},
+  routes:[
+    {kind:"people", pts:[[34,47],[27,47.6],[21,47.6],[16,47.2],[13,46.4],[11.3,45.4]], label:["Steppe ancestry","Ancestralidade da estepe"], lf:.25},
+    {kind:"trade", pts:[[22.76,37.73],[21,38.3],[19,39.3],[17.3,40.3]], label:["Mycenaean traders","Comerciantes micênicos"], lf:.5},
+    {kind:"trade", pts:[[17.3,40.3],[16.5,39],[15.6,38.1],[13,38.6],[10.5,39.2],[8.98,39.71]]}
+  ],
+  places:[
+    {n:["Similaun (Ötzi)","Similaun (Ötzi)"], c:[10.84,46.78], t:["Iceman, died c. 3300 BC","Homem do gelo, morto c. 3300 a.C."]},
+    {n:"Su Nuraxi", c:[8.98,39.71], t:["Nuragic fortress, Sardinia","Fortaleza nurágica, Sardenha"]},
+    {n:["Mycenae","Micenas"], c:[22.76,37.73]}
+  ],
+  en:{short:"Copper and Bronze Age", date:"c. 3500 – 1000 BC", title:"The Iceman and the towers of Sardinia",
+    story:["In 1991 hikers in the Alps found a body in the melting ice: Ötzi, a man who died around 3300 BC, with his copper axe, bow and arrows, shoes and fur hat. A new analysis of his genome in 2023 found an unusually high share of ancestry from the early Anatolian farmers, and skin darker than once imagined.",
+           "Not long after Ötzi's time, people with ancestry from the steppes north of the Black Sea spread through central Europe and into Italy; genomes from around Rome show this shift between about 5,000 and 3,000 years ago. Sardinia stayed apart: its people kept their farmer ancestry and built thousands of stone towers called nuraghi, while Mycenaean ships traded along the southern coasts."],
+    lname:"Ötzi's glacier", ltext:"Ötzi was found at 3,210 metres, on the border between Italy and Austria. He had been shot in the back with an arrow. Today he lies in a refrigerated chamber in the archaeology museum in Bolzano.",
+    facts:["Ötzi's body carries more than 60 tattoos, mostly lines over his joints, possibly a form of pain treatment.",
+           "Sardinia has more than 7,000 nuraghi; Su Nuraxi, at Barumini, is a UNESCO World Heritage Site."]},
+  pt:{short:"Idades do Cobre e do Bronze", date:"c. 3500 – 1000 a.C.", title:"O homem do gelo e as torres da Sardenha",
+    story:["Em 1991, caminhantes nos Alpes encontraram um corpo no gelo derretido: Ötzi, um homem que morreu por volta de 3300 a.C., com seu machado de cobre, arco e flechas, sapatos e gorro de pele. Uma nova análise do seu genoma, em 2023, encontrou uma parcela incomumente alta de ancestralidade dos primeiros agricultores da Anatólia e uma pele mais escura do que se imaginava.",
+           "Pouco depois da época de Ötzi, povos com ancestralidade das estepes ao norte do mar Negro se espalharam pela Europa central e chegaram à Itália; genomas da região de Roma mostram essa mudança entre cerca de 5 mil e 3 mil anos atrás. A Sardenha ficou à parte: seu povo manteve a ancestralidade agrícola e construiu milhares de torres de pedra chamadas nuragues, enquanto navios micênicos comerciavam nas costas do sul."],
+    lname:"A geleira de Ötzi", ltext:"Ötzi foi encontrado a 3.210 metros de altitude, na fronteira entre a Itália e a Áustria. Tinha sido atingido nas costas por uma flecha. Hoje está numa câmara refrigerada do museu arqueológico de Bolzano.",
+    facts:["O corpo de Ötzi tem mais de 60 tatuagens, quase todas linhas sobre as articulações, talvez uma forma de tratar a dor.",
+           "A Sardenha tem mais de 7 mil nuragues; Su Nuraxi, em Barumini, é Patrimônio Mundial da UNESCO."]}
+},
+/* V */
+{
+  view:{c:[12,42.5], span:9}, art:"etruscan", spot:{c:[11.76,42.25], n:["Tarquinia","Tarquínia"]},
+  routes:[
+    {kind:"conquest", pts:[[11.95,43.02],[11.5,43.8],[11.34,44.49]], label:["To the Po valley","Para o vale do Pó"], lf:.4},
+    {kind:"conquest", pts:[[12.1,42.0],[12.8,41.6],[13.6,41.3],[14.25,41.1]], label:["To Campania","Para a Campânia"], lf:.9},
+    {kind:"trade", pts:[[11.76,42.25],[11.0,42.3],[10.0,42.2],[9.52,42.1]], label:["To Corsica","Para a Córsega"], lf:.7}
+  ],
+  places:[
+    {n:["Cerveteri","Cerveteri"], c:[12.1,42.0], t:["Tumulus cemetery","Necrópole de túmulos"]},
+    {n:["Chiusi","Chiusi"], c:[11.95,43.02]},
+    {n:["Rome","Roma"], c:ROMA, t:["Etruscan kings until 509 BC","Reis etruscos até 509 a.C."]},
+    {n:["Felsina (Bologna)","Felsina (Bolonha)"], c:[11.34,44.49]},
+    {n:"Capua", c:[14.25,41.1]},
+    {n:["Aleria (Corsica)","Aléria (Córsega)"], c:[9.52,42.1]}
+  ],
+  en:{short:"Etruscans", date:"c. 900 – 500 BC", title:"The Etruscans: from somewhere else, or from here?",
+    story:["In the Iron Age, Italy was a patchwork of peoples: Latins, Umbrians, Samnites, Veneti and others spoke related Indo-European languages. In Tuscany and northern Lazio, the Etruscans built rich cities, traded with Greeks and Phoenicians, and expanded into the Po valley and Campania. Their language was completely different, and it is still only partly understood.",
+           "The Greek historian Herodotus claimed the Etruscans came from Lydia, in Anatolia. A 2021 study of 82 ancient genomes found no sign of such a migration: the Etruscans were genetically close to their Latin neighbours, including a large share of steppe ancestry, and their gene pool stayed stable for about 800 years."],
+    lname:"Tarquinia", ltext:"Tarquinia's underground tombs are painted with banquets, dancers, musicians, wrestlers and hunters, the best picture we have of Etruscan life. Together with Cerveteri, its cemeteries are a UNESCO World Heritage Site.",
+    facts:["The Etruscans kept their non-Indo-European language even though their genes were like their neighbours', proof that language and DNA do not always travel together.",
+           "Several of Rome's early kings, according to Roman tradition, were Etruscans."]},
+  pt:{short:"Etruscos", date:"c. 900 – 500 a.C.", title:"Os etruscos: vieram de longe ou eram daqui?",
+    story:["Na Idade do Ferro, a Itália era um mosaico de povos: latinos, úmbrios, samnitas, vênetos e outros falavam línguas indo-europeias aparentadas. Na Toscana e no norte do Lácio, os etruscos construíram cidades ricas, comerciaram com gregos e fenícios e se expandiram para o vale do Pó e a Campânia. Sua língua era completamente diferente e ainda é só em parte compreendida.",
+           "O historiador grego Heródoto afirmou que os etruscos vieram da Lídia, na Anatólia. Um estudo de 2021 com 82 genomas antigos não encontrou sinal dessa migração: os etruscos eram geneticamente próximos de seus vizinhos latinos, inclusive com uma grande parcela de ancestralidade da estepe, e seu patrimônio genético ficou estável por cerca de 800 anos."],
+    lname:"Tarquínia", ltext:"Os túmulos subterrâneos de Tarquínia são pintados com banquetes, dançarinos, músicos, lutadores e caçadores, o melhor retrato que temos da vida etrusca. Junto com Cerveteri, suas necrópoles são Patrimônio Mundial da UNESCO.",
+    facts:["Os etruscos mantiveram sua língua não indo-europeia mesmo tendo genes parecidos com os dos vizinhos, prova de que língua e DNA nem sempre viajam juntos.",
+           "Segundo a tradição romana, vários dos primeiros reis de Roma eram etruscos."]}
+},
+/* VI */
+{
+  view:{c:[14,38.5], span:20}, art:"galley", spot:{c:[14.05,40.85], n:["Cumae","Cumas"]},
+  routes:[
+    {kind:"people", tv:"ship", pts:[[23.6,38.45],[21.5,38.4],[19,38.6],[16.5,38.2],[15.6,38.4],[14.6,39.6],[14.05,40.85]], label:["Euboeans to Cumae, c. 740 BC","Eubeus em Cumas, c. 740 a.C."], lf:.42},
+    {kind:"people", tv:"ship", pts:[[22.88,37.91],[20.5,37.6],[17.5,37.2],[15.29,37.08]], label:["Corinthians to Syracuse","Coríntios em Siracusa"], lf:.6},
+    {kind:"people", tv:"ship", pts:[[22.43,37.07],[20.5,38.3],[18.5,39.5],[17.24,40.47]], label:["Spartans to Taras","Espartanos em Taras"], lf:.5},
+    {kind:"trade", pts:[[10.32,36.85],[11.4,37.4],[12.47,37.87]], label:["Carthage","Cartago"], lf:.3},
+    {kind:"trade", pts:[[10.32,36.85],[9.5,38.2],[8.44,39.87]]}
+  ],
+  places:[
+    {n:["Syracuse","Siracusa"], c:[15.29,37.08], t:["Founded by Corinth, 733 BC","Fundada por Corinto, 733 a.C."]},
+    {n:["Taras (Taranto)","Taras (Tarento)"], c:[17.24,40.47]},
+    {n:["Motya","Motia"], c:[12.47,37.87], t:["Phoenician island town","Cidade-ilha fenícia"]},
+    {n:["Tharros","Tharros"], c:[8.44,39.87], t:["Phoenician port in Sardinia","Porto fenício na Sardenha"]},
+    {n:["Carthage","Cartago"], c:[10.32,36.85]}
+  ],
+  en:{short:"Greeks and Phoenicians", date:"c. 750 – 500 BC", title:"Magna Graecia and Carthage",
+    story:["From the 8th century BC, Greek colonists settled the coasts of southern Italy and Sicily so densely that the Romans called the region Magna Graecia, 'Great Greece'. Euboeans founded Cumae near Naples, Corinthians founded Syracuse, and Spartans founded Taras, today's Taranto. Neapolis, 'new city', became Naples.",
+           "At the same time Phoenicians from the Levant, and later Carthage, held western Sicily and the coasts of Sardinia. Ancient DNA shows that from this period, ancestry from the eastern and northern Mediterranean began to enter Sardinia's long-isolated population."],
+    lname:"Cumae", ltext:"Cumae, one of the oldest Greek colonies in the West, passed its alphabet to the Etruscans, and through them to the Romans. The letters you are reading descend from the Greek alphabet used here.",
+    facts:["Syracuse grew into one of the largest cities in the Greek world; the mathematician Archimedes lived there.",
+           "Greek was spoken in parts of Calabria and Apulia into modern times, in dialects called Griko and Grecanico."]},
+  pt:{short:"Gregos e fenícios", date:"c. 750 – 500 a.C.", title:"A Magna Grécia e Cartago",
+    story:["A partir do século VIII a.C., colonos gregos ocuparam as costas do sul da Itália e da Sicília de forma tão densa que os romanos chamaram a região de Magna Grécia. Eubeus fundaram Cumas, perto de Nápoles; coríntios fundaram Siracusa; e espartanos fundaram Taras, a atual Tarento. Neápolis, 'cidade nova', virou Nápoles.",
+           "Ao mesmo tempo, fenícios do Levante, e depois Cartago, dominavam o oeste da Sicília e as costas da Sardenha. O DNA antigo mostra que, a partir desse período, ancestralidades do Mediterrâneo oriental e setentrional começaram a entrar na população da Sardenha, isolada havia muito tempo."],
+    lname:"Cumas", ltext:"Cumas, uma das colônias gregas mais antigas do Ocidente, passou seu alfabeto aos etruscos e, por meio deles, aos romanos. As letras que você está lendo descendem do alfabeto grego usado aqui.",
+    facts:["Siracusa se tornou uma das maiores cidades do mundo grego; o matemático Arquimedes viveu lá.",
+           "Ainda se fala grego em partes da Calábria e da Apúlia, em dialetos chamados griko e grecanico."]}
+},
+/* VII */
+{
+  view:{c:[6,40], span:30}, art:"elephant", spot:{c:ROMA, n:["Rome","Roma"]},
+  routes:[
+    {kind:"conquest", pts:[[-0.98,37.6],[0.5,40.5],[2.8,42.6],[4.6,43.8],[6.2,45.1],[7.2,45.2],[8.2,45.2],[10,45],[11.6,44.1],[12.8,43],[14.5,42.2],[16.13,41.3]], label:["Hannibal, 218–216 BC","Aníbal, 218–216 a.C."], lf:.08},
+    {kind:"conquest", pts:[[12.49,41.89],[14,40.7],[15.6,39],[15.4,38.2],[13.5,37.6],[12.5,37.2],[10.32,36.85]], label:["Rome to Carthage, 146 BC","Roma contra Cartago, 146 a.C."], lf:.75},
+    {kind:"conquest", pts:[[12.49,41.89],[13.7,41.3],[14.8,41.1],[16.5,40.8],[17.94,40.63]], label:["Via Appia","Via Ápia"], lf:.7}
+  ],
+  places:[
+    {n:["Cannae","Canas"], c:[16.13,41.3], t:["Hannibal's great victory, 216 BC","Grande vitória de Aníbal, 216 a.C."]},
+    {n:["Carthage","Cartago"], c:[10.32,36.85], t:["Destroyed in 146 BC","Destruída em 146 a.C."]},
+    {n:["Carthago Nova","Cartago Nova"], c:[-0.98,37.6]},
+    {n:["Brundisium","Brundísio"], c:[17.94,40.63]}
+  ],
+  en:{short:"Rise of Rome", date:"509 – 27 BC", title:"A city-state conquers Italy",
+    story:["Rome expelled its last king in 509 BC and became a republic. Through wars and alliances it took control of the whole peninsula by around 270 BC, linking it with roads such as the Via Appia, begun in 312 BC.",
+           "Then came the struggle with Carthage. In 218 BC Hannibal marched from Spain over the Pyrenees and the Alps with an army and war elephants, and crushed the Romans at Cannae. Rome survived, won, and in 146 BC destroyed Carthage. After the Social War of 91–88 BC, Roman citizenship was extended to the free peoples of Italy."],
+    lname:"Rome", ltext:"The Forum, a marshy valley drained by the Etruscan-era sewer, the Cloaca Maxima, became the centre of Roman political life: temples, law courts, the Senate house and the speakers' platform.",
+    facts:["Most of Hannibal's elephants died during the crossing of the Alps or soon after.",
+           "Latin, at first the language of one small region around Rome, slowly replaced Etruscan, Oscan, Umbrian and Greek across most of Italy."]},
+  pt:{short:"Ascensão de Roma", date:"509 – 27 a.C.", title:"Uma cidade-Estado conquista a Itália",
+    story:["Roma expulsou seu último rei em 509 a.C. e se tornou uma república. Por meio de guerras e alianças, controlou toda a península por volta de 270 a.C., ligando-a com estradas como a Via Ápia, iniciada em 312 a.C.",
+           "Depois veio a luta contra Cartago. Em 218 a.C., Aníbal marchou da Espanha pelos Pireneus e pelos Alpes com um exército e elefantes de guerra, e esmagou os romanos em Canas. Roma resistiu, venceu e, em 146 a.C., destruiu Cartago. Depois da Guerra Social de 91–88 a.C., a cidadania romana foi estendida aos povos livres da Itália."],
+    lname:"Roma", ltext:"O Fórum, um vale pantanoso drenado pelo esgoto da época etrusca, a Cloaca Máxima, tornou-se o centro da vida política romana: templos, tribunais, a sede do Senado e a tribuna dos oradores.",
+    facts:["A maior parte dos elefantes de Aníbal morreu durante a travessia dos Alpes ou logo depois.",
+           "O latim, no início a língua de uma pequena região em volta de Roma, substituiu aos poucos o etrusco, o osco, o úmbrio e o grego na maior parte da Itália."]}
+},
+/* VIII */
+{
+  view:{c:[20,38], span:46}, art:"colosseum", spot:{c:ROMA, n:["Rome","Roma"]},
+  routes:[
+    {kind:"trade", pts:[[29.92,31.2],[26,33.2],[21,34.8],[16.5,36.6],[14.2,39.5],[12.29,41.75]], label:["Grain from Egypt","Trigo do Egito"], lf:.35},
+    {kind:"people", pts:[[36.16,36.2],[32,35.3],[27,35.8],[22,36.8],[18,38.3],[15.6,39.5],[12.49,41.89]], label:["From the East","Do Oriente"], lf:.2},
+    {kind:"people", pts:[[10.32,36.85],[11.2,38.4],[11.8,40.3],[12.49,41.89]], label:["From Africa","Da África"], lf:.3},
+    {kind:"people", pts:[[4.84,45.76],[7,45.3],[9.19,45.46],[11,44],[12.49,41.89]], label:["From Gaul","Da Gália"], lf:.2}
+  ],
+  places:[
+    {n:"Ostia", c:[12.29,41.75], t:["Rome's harbour","O porto de Roma"]},
+    {n:["Alexandria","Alexandria"], c:[29.92,31.2]},
+    {n:["Antioch","Antioquia"], c:[36.16,36.2]},
+    {n:["Carthage","Cartago"], c:[10.32,36.85]},
+    {n:["Lugdunum (Lyon)","Lugdunum (Lyon)"], c:[4.84,45.76]}
+  ],
+  en:{short:"Imperial Rome", date:"27 BC – AD 476", title:"A city of a million, from everywhere",
+    story:["Under Augustus and his successors Rome became the largest city in the world, with perhaps a million people. Grain ships sailed from Egypt and North Africa to Ostia; merchants, soldiers, teachers and slaves arrived from every province. In AD 212 Emperor Caracalla granted citizenship to almost all free people in the empire.",
+           "Ancient DNA shows how mixed Rome became. Genomes from the imperial period show a large shift toward ancestry from the eastern Mediterranean and the Near East, the most densely populated part of the empire. Studies link it to the movement of merchants, soldiers and enslaved people. In the 5th century the western empire collapsed: Rome was sacked in 410, and the last western emperor was deposed in 476."],
+    lname:"Rome", ltext:"The Colosseum, opened in AD 80, could hold some 50,000 spectators for gladiator fights and animal hunts. Among its crowds were people born in Syria, Egypt, Spain, Gaul and Britain.",
+    facts:["Many enslaved people in Rome came from the Greek-speaking East, and many were later freed; freed slaves and their children made up a large part of the city's population.",
+           "As the empire declined, Rome's population shrank to a small fraction of its peak."]},
+  pt:{short:"Roma imperial", date:"27 a.C. – 476 d.C.", title:"Uma cidade de um milhão, vindo de todo lugar",
+    story:["Com Augusto e seus sucessores, Roma se tornou a maior cidade do mundo, com talvez um milhão de habitantes. Navios de trigo vinham do Egito e do norte da África até Óstia; mercadores, soldados, professores e escravizados chegavam de todas as províncias. Em 212 d.C., o imperador Caracala concedeu a cidadania a quase todos os habitantes livres do império.",
+           "O DNA antigo mostra como Roma se tornou misturada. Genomas do período imperial mostram uma grande mudança rumo à ancestralidade do Mediterrâneo oriental e do Oriente Próximo, a parte mais povoada do império. Os estudos ligam isso à circulação de mercadores, soldados e pessoas escravizadas. No século V, o império do Ocidente desabou: Roma foi saqueada em 410, e o último imperador do Ocidente foi deposto em 476."],
+    lname:"Roma", ltext:"O Coliseu, inaugurado em 80 d.C., recebia cerca de 50 mil espectadores para lutas de gladiadores e caçadas de animais. No público havia pessoas nascidas na Síria, no Egito, na Hispânia, na Gália e na Britânia.",
+    facts:["Muitos escravizados em Roma vinham do Oriente de língua grega, e muitos foram libertados depois; libertos e seus filhos eram uma grande parte da população da cidade.",
+           "Com o declínio do império, a população de Roma encolheu para uma pequena fração do seu auge."]}
+},
+/* IX */
+{
+  view:{c:[16,42], span:30}, art:"crown", spot:{c:[12.2,44.42], n:["Ravenna","Ravena"]},
+  routes:[
+    {kind:"conquest", pts:[[20.5,44.8],[17,45.6],[14,46],[12.8,45.3],[12.2,44.42]], label:["Ostrogoths, 489","Ostrogodos, 489"], lf:.25},
+    {kind:"conquest", pts:[[28.98,41.01],[24.5,37.5],[19,37],[15.3,37.1],[14.5,39],[12.49,41.89]], label:["Byzantines, 535","Bizantinos, 535"], lf:.2},
+    {kind:"people", pts:[[18.5,46.8],[16,46.4],[13.43,46.09],[11.5,45.6],[9.16,45.19]], label:["Lombards, 568","Lombardos, 568"], lf:.3},
+    {kind:"conquest", pts:[[4.5,49],[6.5,47],[7.7,45.6],[9.16,45.19]], label:["Charlemagne, 774","Carlos Magno, 774"], lf:.4}
+  ],
+  places:[
+    {n:"Pavia", c:[9.16,45.19], t:["Lombard capital","Capital lombarda"]},
+    {n:"Cividale", c:[13.43,46.09], t:["First Lombard duchy","Primeiro ducado lombardo"]},
+    {n:"Benevento", c:[14.78,41.13], t:["Lombard duchy in the south","Ducado lombardo no sul"]},
+    {n:["Rome","Roma"], c:ROMA}
+  ],
+  en:{short:"Goths and Lombards", date:"476 – 774", title:"Germanic kings and Byzantine generals",
+    story:["After 476, Germanic rulers governed Italy. Theodoric the Ostrogoth arrived from the Balkans in 489 and ruled from Ravenna. Then Emperor Justinian, from Constantinople, sent his armies to reconquer Italy; the war, from 535 to 554, devastated the peninsula.",
+           "In 568 the Lombards, a Germanic people from Pannonia (today's Hungary), crossed the eastern Alps under King Alboin and took most of the north, with their capital at Pavia. Italy was divided between Lombards and Byzantines for two centuries, until Charlemagne conquered the Lombard kingdom in 774. Ancient DNA shows northern European ancestry spreading across the peninsula in this period."],
+    lname:"Ravenna", ltext:"Capital of the Ostrogoths and then of Byzantine Italy, Ravenna kept glittering mosaics in its churches, among them portraits of Justinian and Empress Theodora in San Vitale.",
+    facts:["The region of Lombardy is named after the Lombards.",
+           "The Lombard arrival broke the political unity of Italy for the first time since the Roman conquest; it would not be reunited until 1861."]},
+  pt:{short:"Godos e lombardos", date:"476 – 774", title:"Reis germânicos e generais bizantinos",
+    story:["Depois de 476, governantes germânicos dominaram a Itália. Teodorico, o Ostrogodo, chegou dos Bálcãs em 489 e governou a partir de Ravena. Depois o imperador Justiniano, de Constantinopla, enviou seus exércitos para reconquistar a Itália; a guerra, de 535 a 554, devastou a península.",
+           "Em 568, os lombardos, um povo germânico da Panônia (atual Hungria), atravessaram os Alpes orientais sob o rei Alboíno e tomaram a maior parte do norte, com capital em Pavia. A Itália ficou dividida entre lombardos e bizantinos por dois séculos, até que Carlos Magno conquistou o reino lombardo em 774. O DNA antigo mostra a ancestralidade do norte da Europa se espalhando pela península nesse período."],
+    lname:"Ravena", ltext:"Capital dos ostrogodos e depois da Itália bizantina, Ravena guardou mosaicos reluzentes em suas igrejas, entre eles os retratos de Justiniano e da imperatriz Teodora em San Vitale.",
+    facts:["A região da Lombardia tem esse nome por causa dos lombardos.",
+           "A chegada dos lombardos rompeu a unidade política da Itália pela primeira vez desde a conquista romana; ela só seria reunificada em 1861."]}
+},
+/* X */
+{
+  view:{c:[16,40], span:40}, art:"gondola", spot:{c:[13.36,38.12], n:["Palermo","Palermo"]},
+  routes:[
+    {kind:"conquest", pts:[[10.1,35.68],[11.2,36.6],[12.59,37.65]], label:["Arabs land at Mazara, 827","Árabes em Mazara, 827"], lf:.4},
+    {kind:"conquest", pts:[[-0.4,49.2],[2,46],[5,44],[8,43.4],[11,42],[13.5,40.6],[15.5,38.2]], label:["Normans","Normandos"], lf:.3},
+    {kind:"trade", pts:[[12.34,45.44],[14.5,43.5],[18.5,40.5],[21,37],[25,35.5],[30,34.5],[35.07,32.92]], label:["Venice to the Levant","Veneza ao Levante"], lf:.5},
+    {kind:"trade", pts:[[8.93,44.41],[9.6,42],[11.5,38.5],[16,37],[21.5,36.6],[26.4,40.25],[29,41.1],[33,43.8],[35.38,45.03]], label:["Genoa to the Black Sea","Gênova ao mar Negro"], lf:.85}
+  ],
+  places:[
+    {n:"Mazara", c:[12.59,37.65]},
+    {n:["Venice","Veneza"], c:[12.34,45.44]},
+    {n:["Genoa","Gênova"], c:[8.93,44.41]},
+    {n:"Amalfi", c:[14.6,40.63]},
+    {n:["Acre","Acre"], c:[35.07,32.92]},
+    {n:["Caffa (Crimea)","Caffa (Crimeia)"], c:[35.38,45.03]}
+  ],
+  en:{short:"Arabs, Normans, sea republics", date:"827 – 1300", title:"Sicily between three worlds",
+    story:["In 827 an Arab and Berber army from Ifriqiya (today's Tunisia) landed at Mazara. Palermo fell in 831, and by 965 all of Sicily was under Muslim rule. Under the emirs, Palermo became one of the largest cities in Europe. Between 1061 and 1091 Norman knights from northern France conquered the island and built a kingdom where Latin, Greek and Arabic were all used at court.",
+           "In the north, the sea republics of Venice, Genoa, Pisa and Amalfi grew rich on trade with Constantinople, the Levant and the Black Sea, with merchant colonies far from home."],
+    lname:"Palermo", ltext:"Palermo's Norman palace chapel and cathedrals mix Byzantine mosaics, Arabic inscriptions and carved wooden ceilings in Islamic style; 'Arab-Norman Palermo' is a UNESCO World Heritage Site.",
+    facts:["Many Sicilian place names come from Arabic: Caltanissetta, Marsala ('port of God') and many towns beginning with 'Calta' (from qal'at, fortress).",
+           "Emperor Frederick II later deported Sicily's remaining Muslims to Lucera, in Apulia; the community was destroyed in 1300."]},
+  pt:{short:"Árabes, normandos, repúblicas", date:"827 – 1300", title:"A Sicília entre três mundos",
+    story:["Em 827, um exército árabe e berbere de Ifríquia (atual Tunísia) desembarcou em Mazara. Palermo caiu em 831 e, em 965, toda a Sicília estava sob domínio muçulmano. Com os emires, Palermo se tornou uma das maiores cidades da Europa. Entre 1061 e 1091, cavaleiros normandos do norte da França conquistaram a ilha e criaram um reino onde latim, grego e árabe eram usados na corte.",
+           "No norte, as repúblicas marítimas de Veneza, Gênova, Pisa e Amalfi enriqueceram com o comércio com Constantinopla, o Levante e o mar Negro, com colônias mercantes longe de casa."],
+    lname:"Palermo", ltext:"A capela do palácio normando e as catedrais de Palermo misturam mosaicos bizantinos, inscrições árabes e tetos de madeira entalhada em estilo islâmico; a 'Palermo árabe-normanda' é Patrimônio Mundial da UNESCO.",
+    facts:["Muitos nomes de lugares sicilianos vêm do árabe: Caltanissetta, Marsala ('porto de Deus') e muitas cidades que começam com 'Calta' (de qal'at, fortaleza).",
+           "O imperador Frederico II depois deportou os muçulmanos que restavam na Sicília para Lucera, na Apúlia; a comunidade foi destruída em 1300."]}
+},
+/* XI */
+{
+  view:{c:[10,41], span:40}, art:"duomo", spot:{c:[11.26,43.77], n:["Florence","Florença"]},
+  routes:[
+    {kind:"trade", pts:[[35.38,45.03],[31,43],[28.98,41.01],[26.4,40.25],[23,37],[18.5,37],[15.55,38.19]], label:["Black Death, 1347","Peste Negra, 1347"], lf:.15},
+    {kind:"people", pts:[[19.82,41.33],[19,40.4],[17.6,39.6],[16.4,39.1]], label:["Arbëreshë (Albanians)","Arbëreshë (albaneses)"], lf:.35},
+    {kind:"people", tv:"ship", pts:[[-9.14,38.71],[-6,36.2],[0,37.6],[5,40.5],[8.5,42.8],[10.31,43.55]], label:["Sephardic Jews to Livorno","Judeus sefarditas em Livorno"], lf:.4},
+    {kind:"conquest", pts:[[-3.7,40.4],[0,40],[5,40],[10,40.4],[14.27,40.85]], label:["Spanish rule","Domínio espanhol"], lf:.75}
+  ],
+  places:[
+    {n:"Messina", c:[15.55,38.19], t:["Plague arrives, October 1347","A peste chega, outubro de 1347"]},
+    {n:"Livorno", c:[10.31,43.55], t:["Free port open to all faiths, 1591–93","Porto livre aberto a todas as fés, 1591–93"]},
+    {n:["Naples","Nápoles"], c:[14.27,40.85], t:["Spanish viceroyalty","Vice-reino espanhol"]},
+    {n:["Venice","Veneza"], c:[12.34,45.44]},
+    {n:"Piana degli Albanesi", c:[13.28,37.99], t:["Arbëreshë town in Sicily","Cidade arbëreshë na Sicília"]}
+  ],
+  en:{short:"Renaissance and foreign rule", date:"1300 – 1800", title:"Plague, Renaissance and newcomers",
+    story:["In 1347 Genoese ships from the Black Sea brought the Black Death to Messina; within a few years it had killed a huge share of Italy's people. The cities recovered, and Florence, Venice, Milan and Rome led the Renaissance in art and learning.",
+           "Newcomers kept arriving. From the 1440s, Albanian soldiers and refugees fleeing the Ottomans founded dozens of villages in southern Italy; their descendants, the Arbëreshë, still live in about 50 communities. In 1591 and 1593 the Medici invited merchants of every faith to Livorno, and thousands of Sephardic Jews came from Iberia. Meanwhile much of Italy, including Naples, Sicily and Milan, came under Spanish and later Austrian rule."],
+    lname:"Florence", ltext:"Brunelleschi's dome over Florence's cathedral, finished in 1436, was the largest brick dome ever built. Florence's bankers, wool merchants and painters made it the capital of the early Renaissance.",
+    facts:["The Arbëreshë still speak an old form of Albanian, and many of their churches follow the Byzantine rite.",
+           "The word 'quarantine' comes from the Venetian quaranta giorni, 'forty days', the time ships had to wait before landing during plague outbreaks."]},
+  pt:{short:"Renascimento e domínio estrangeiro", date:"1300 – 1800", title:"Peste, Renascimento e recém-chegados",
+    story:["Em 1347, navios genoveses vindos do mar Negro trouxeram a Peste Negra a Messina; em poucos anos ela matou uma enorme parte da população italiana. As cidades se recuperaram, e Florença, Veneza, Milão e Roma lideraram o Renascimento nas artes e no saber.",
+           "Os recém-chegados não pararam. A partir da década de 1440, soldados e refugiados albaneses que fugiam dos otomanos fundaram dezenas de aldeias no sul da Itália; seus descendentes, os arbëreshë, ainda vivem em cerca de 50 comunidades. Em 1591 e 1593, os Médici convidaram mercadores de todas as fés para Livorno, e milhares de judeus sefarditas vieram da Península Ibérica. Enquanto isso, boa parte da Itália, incluindo Nápoles, a Sicília e Milão, ficou sob domínio espanhol e depois austríaco."],
+    lname:"Florença", ltext:"A cúpula de Brunelleschi sobre a catedral de Florença, concluída em 1436, foi a maior cúpula de tijolos já construída. Banqueiros, mercadores de lã e pintores fizeram de Florença a capital do início do Renascimento.",
+    facts:["Os arbëreshë ainda falam uma forma antiga de albanês, e muitas de suas igrejas seguem o rito bizantino.",
+           "A palavra 'quarentena' vem do veneziano quaranta giorni, 'quarenta dias', o tempo que os navios tinham de esperar antes de desembarcar nas épocas de peste."]}
+},
+/* XII */
+{
+  view:{c:[-20,10], span:110}, art:"risorgimento", spot:{c:ROMA, n:["Rome","Roma"]},
+  routes:[
+    {kind:"people", tv:"ship", pts:[[8.93,44.41],[2,40],[-6,36],[-20,20],[-30,0],[-38,-15],[-43.2,-22.9],[-48.78,-28.48]], label:["Garibaldi to Brazil, 1836","Garibaldi para o Brasil, 1836"], lf:.55},
+    {kind:"people", tv:"ship", pts:[[-56.16,-34.9],[-45,-25],[-33,-5],[-22,15],[-10,33],[-3,37],[5,41],[8.93,44.41]], label:["Return to Italy, 1848","Volta à Itália, 1848"], lf:.42},
+    {kind:"conquest", tv:"ship", pts:[[8.98,44.39],[9.5,41.5],[11,39],[12.44,37.8],[13.36,38.12],[15.6,38.3],[16.3,39.5],[15.3,40.4],[14.27,40.85]], label:["Expedition of the Thousand, 1860","Expedição dos Mil, 1860"], lf:.25}
+  ],
+  places:[
+    {n:"Laguna", c:[-48.78,-28.48], t:["Garibaldi meets Anita, 1839","Garibaldi conhece Anita, 1839"]},
+    {n:"Montevideo", c:[-56.16,-34.9]},
+    {n:"Marsala", c:[12.44,37.8], t:["The Thousand land, May 1860","Os Mil desembarcam, maio de 1860"]},
+    {n:["Turin","Turim"], c:[7.69,45.07], t:["First capital of Italy, 1861","Primeira capital da Itália, 1861"]},
+    {n:["Naples","Nápoles"], c:[14.27,40.85]}
+  ],
+  en:{short:"Unification", date:"1815 – 1871", title:"Garibaldi, from Brazil to Rome",
+    story:["After Napoleon's fall in 1815, Italy was again split into states, many under Austrian influence. A movement called the Risorgimento, 'resurgence', set out to unite it. One of its heroes learned to fight in Brazil: Giuseppe Garibaldi, exiled in 1836, fought for the Riograndense Republic in the Ragamuffin War, where he met Anita, a Brazilian woman from Santa Catarina who fought beside him.",
+           "Back in Italy from 1848, Garibaldi led the Expedition of the Thousand in 1860, sailing from near Genoa to Sicily and marching to Naples. The Kingdom of Italy was proclaimed in 1861, with Turin as its first capital. Venice joined in 1866, and Rome in 1870, becoming the capital in 1871."],
+    lname:"Rome", ltext:"Rome was the last piece. Italian troops entered the city through a breach near Porta Pia on 20 September 1870, ending more than a thousand years of papal rule over Rome.",
+    facts:["Garibaldi's volunteers wore red shirts, a uniform he had first used in South America.",
+           "Anita Garibaldi died in Italy in 1849 while fleeing with Garibaldi; she is honoured in both Brazil and Italy."]},
+  pt:{short:"Unificação", date:"1815 – 1871", title:"Garibaldi, do Brasil a Roma",
+    story:["Depois da queda de Napoleão, em 1815, a Itália voltou a se dividir em Estados, muitos sob influência austríaca. Um movimento chamado Risorgimento, 'ressurgimento', quis unificá-la. Um de seus heróis aprendeu a lutar no Brasil: Giuseppe Garibaldi, exilado em 1836, lutou pela República Rio-Grandense na Guerra dos Farrapos, onde conheceu Anita, uma brasileira de Santa Catarina que lutou ao seu lado.",
+           "De volta à Itália a partir de 1848, Garibaldi liderou a Expedição dos Mil em 1860, partindo de perto de Gênova até a Sicília e marchando até Nápoles. O Reino da Itália foi proclamado em 1861, com Turim como primeira capital. Veneza foi incorporada em 1866 e Roma em 1870, tornando-se a capital em 1871."],
+    lname:"Roma", ltext:"Roma foi a última peça. Tropas italianas entraram na cidade por uma brecha perto da Porta Pia em 20 de setembro de 1870, encerrando mais de mil anos de governo papal sobre Roma.",
+    facts:["Os voluntários de Garibaldi usavam camisas vermelhas, um uniforme que ele usou primeiro na América do Sul.",
+           "Anita Garibaldi morreu na Itália em 1849, fugindo com Garibaldi; ela é homenageada no Brasil e na Itália."]}
+},
+/* XIII */
+{
+  view:{c:[-25,10], span:130}, art:"steamer", spot:{c:[14.27,40.85], n:["Naples and Genoa","Nápoles e Gênova"]},
+  routes:[
+    {kind:"leave", tv:"ship", pts:[[14.27,40.85],[8,39],[-6,36],[-30,40],[-55,41.5],[-74,40.7]], label:["To the USA","Para os EUA"], lf:.6},
+    {kind:"leave", tv:"ship", pts:[[8.93,44.41],[2,39],[-6,36],[-20,15],[-35,-10],[-48,-30],[-58.38,-34.6]], label:["To Argentina","Para a Argentina"], lf:.82},
+    {kind:"leave", tv:"ship", pts:[[8.93,44.41],[3,39.5],[-6,36],[-20,18],[-32,-3],[-40,-18],[-46.33,-23.96]], label:["To Brazil","Para o Brasil"], lf:.62},
+    {kind:"leave", pts:[[9.19,45.46],[6.5,46.5],[4,47.5],[2.35,48.86]], label:["To France","Para a França"], lf:.8},
+    {kind:"leave", pts:[[11.3,46.5],[11.4,47.3],[11.58,48.14]], label:["To Germany","Para a Alemanha"], lf:.9},
+    {kind:"people", pts:[[15.6,38.1],[16.2,39.8],[15.6,41],[14,42.2],[12,43.5],[10.5,44.6],[9.19,45.46]], label:["South to north, 1950s–60s","Do sul para o norte, anos 1950–60"], lf:.45}
+  ],
+  places:[
+    {n:["New York","Nova York"], c:[-74,40.7]},
+    {n:"Buenos Aires", c:[-58.38,-34.6]},
+    {n:["Santos / São Paulo","Santos / São Paulo"], c:[-46.33,-23.96], t:["Gateway to the coffee farms","Porta de entrada para as fazendas de café"]},
+    {n:["Paris","Paris"], c:[2.35,48.86]},
+    {n:["Milan and Turin","Milão e Turim"], c:[9.19,45.46], t:["Factories of the 'economic miracle'","Fábricas do 'milagre econômico'"]},
+    {n:["Genoa","Gênova"], c:[8.93,44.41]}
+  ],
+  en:{short:"The great emigration", date:"1876 – 1970s", title:"Twenty-six million departures",
+    story:["Poverty, small plots and cheap ship tickets pushed Italians abroad on a scale few countries have ever seen. From 1876, when official records began, about 26 million Italians left over roughly a century, most of them young men; about a third eventually came back. Before 1915 most crossed the Atlantic, to the United States, Argentina and Brazil; after the Second World War more went to France, Switzerland, Belgium and Germany.",
+           "Brazil received about 1.5 million Italians. After slavery was abolished in 1888, São Paulo state paid many families' passage to work on its coffee farms, and Italians shaped the food, accent and industry of São Paulo and the southern states. In Italy itself, millions moved from the south to the factories of Milan and Turin in the 1950s and 1960s."],
+    lname:"Naples and Genoa", ltext:"Most emigrants sailed from Naples, Genoa or Palermo, often in crowded steerage for weeks. Departing families were photographed on the quays, and many never saw each other again.",
+    facts:["Italians in Brazil came mostly from the north at first, especially Veneto, and settled the hills of Rio Grande do Sul, Santa Catarina and Paraná, as well as São Paulo.",
+           "Around 62% of Argentines are estimated to have some Italian ancestry."]},
+  pt:{short:"A grande emigração", date:"1876 – anos 1970", title:"Vinte e seis milhões de partidas",
+    story:["A pobreza, as terras pequenas e as passagens de navio baratas empurraram os italianos para fora numa escala que poucos países já viram. A partir de 1876, quando começaram os registros oficiais, cerca de 26 milhões de italianos partiram em cerca de um século, a maioria homens jovens; cerca de um terço acabou voltando. Antes de 1915, a maioria atravessou o Atlântico, para os Estados Unidos, a Argentina e o Brasil; depois da Segunda Guerra Mundial, mais gente foi para a França, a Suíça, a Bélgica e a Alemanha.",
+           "O Brasil recebeu cerca de 1,5 milhão de italianos. Depois da abolição da escravidão, em 1888, o estado de São Paulo pagou a passagem de muitas famílias para trabalhar nas fazendas de café, e os italianos marcaram a comida, o sotaque e a indústria de São Paulo e dos estados do Sul. Na própria Itália, milhões se mudaram do sul para as fábricas de Milão e Turim nos anos 1950 e 1960."],
+    lname:"Nápoles e Gênova", ltext:"A maioria dos emigrantes partia de Nápoles, Gênova ou Palermo, muitas vezes por semanas na terceira classe lotada. Famílias eram fotografadas nos cais na despedida, e muitas nunca mais se viram.",
+    facts:["No início, os italianos no Brasil vinham sobretudo do norte, em especial do Vêneto, e ocuparam as serras do Rio Grande do Sul, de Santa Catarina e do Paraná, além de São Paulo.",
+           "Estima-se que cerca de 62% dos argentinos tenham alguma ancestralidade italiana."]}
+},
+/* XIV */
+{
+  view:{c:[20,35], span:70}, art:"dinghy", spot:{c:ROMA, n:["Rome","Roma"]},
+  routes:[
+    {kind:"people", pts:[[26.1,44.43],[22,45.3],[18,45.8],[14,45.9],[11,45.4],[9.19,45.46]], label:["From Romania","Da Romênia"], lf:.3},
+    {kind:"people", tv:"ship", pts:[[19.45,40.47],[18.6,40.9],[16.87,41.12]], label:["From Albania, 1991","Da Albânia, 1991"], lf:.5},
+    {kind:"people", tv:"ship", pts:[[13.19,32.89],[13,34.2],[12.6,35.5]], label:["From Libya","Da Líbia"], lf:.4},
+    {kind:"people", tv:"ship", pts:[[10.76,34.74],[11.8,35.2],[12.6,35.5]], label:["From Tunisia","Da Tunísia"], lf:.3},
+    {kind:"people", pts:[[-6.84,34.02],[-3,36.5],[3,38.5],[9,40.5],[12.49,41.89]], label:["From Morocco","Do Marrocos"], lf:.35},
+    {kind:"people", pts:[[30.52,50.45],[24,48.5],[17,47],[12,45.2],[9.19,45.46]], label:["From Ukraine","Da Ucrânia"], lf:.25}
+  ],
+  places:[
+    {n:"Lampedusa", c:[12.6,35.5], t:["Closer to Africa than to mainland Italy","Mais perto da África que da Itália continental"]},
+    {n:"Bari", c:[16.87,41.12], t:["The ship Vlora arrives, August 1991","Chegada do navio Vlora, agosto de 1991"]},
+    {n:["Milan","Milão"], c:[9.19,45.46]},
+    {n:"Prato", c:[11.1,43.88], t:["Large Chinese community","Grande comunidade chinesa"]},
+    {n:["Bucharest","Bucareste"], c:[26.1,44.43]}
+  ],
+  en:{short:"Today", date:"1970s – today", title:"From emigrants to hosts",
+    story:["In the 1970s, for the first time, more people began arriving in Italy than leaving. In August 1991 the ship Vlora brought thousands of Albanians to Bari in a single day, a symbol of the new era. Romanians became the largest community after Romania joined the EU in 2007, followed by Albanians, Moroccans, Chinese and Ukrainians.",
+           "At the start of 2025 about 5.37 million foreign citizens lived in Italy, about 9% of the population. Sea crossings from Libya and Tunisia peaked at about 181,000 arrivals in 2016, many landing first on Lampedusa. At the same time, young Italians keep leaving for jobs in Germany, the UK and elsewhere."],
+    lname:"Rome today", ltext:"Around Piazza Vittorio, in the Esquilino district, Bangladeshi, Chinese, Romanian, Senegalese and Italian shops share the arcades, two kilometres from the Colosseum.",
+    facts:["In September 2023 about 7,000 migrants reached Lampedusa within 24 hours, more than the island's whole population.",
+           "Prato, near Florence, has one of the largest Chinese communities in Europe, many from Wenzhou, working in the textile industry."]},
+  pt:{short:"Hoje", date:"anos 1970 – hoje", title:"De emigrantes a anfitriões",
+    story:["Nos anos 1970, pela primeira vez, começou a chegar à Itália mais gente do que saía. Em agosto de 1991, o navio Vlora levou milhares de albaneses a Bari num só dia, símbolo da nova era. Os romenos se tornaram a maior comunidade depois da entrada da Romênia na UE, em 2007, seguidos por albaneses, marroquinos, chineses e ucranianos.",
+           "No início de 2025, cerca de 5,37 milhões de estrangeiros viviam na Itália, cerca de 9% da população. As travessias por mar a partir da Líbia e da Tunísia chegaram ao pico de cerca de 181 mil chegadas em 2016, muitas desembarcando primeiro em Lampedusa. Ao mesmo tempo, jovens italianos continuam partindo em busca de trabalho na Alemanha, no Reino Unido e em outros lugares."],
+    lname:"Roma hoje", ltext:"Em volta da Piazza Vittorio, no bairro Esquilino, lojas bengalesas, chinesas, romenas, senegalesas e italianas dividem as arcadas, a dois quilômetros do Coliseu.",
+    facts:["Em setembro de 2023, cerca de 7 mil migrantes chegaram a Lampedusa em 24 horas, mais do que toda a população da ilha.",
+           "Prato, perto de Florença, tem uma das maiores comunidades chinesas da Europa, muitos vindos de Wenzhou, trabalhando na indústria têxtil."]}
+}
+  ],
+  dna:{
+    title:["LAYERS OF ANCESTRY IN ITALY","CAMADAS DE ANCESTRALIDADE NA ITÁLIA"], pct:false,
+    items:[
+      {n:["Ice Age hunter-gatherers","Caçadores-coletores da Era do Gelo"], v:6, c:"#7b6a4f", at:1, w:["small, oldest layer","pequena, a mais antiga"]},
+      {n:["First farmers (Anatolia)","Primeiros agricultores (Anatólia)"], v:40, c:"#a0522d", at:2, w:["main layer; highest in Sardinia","principal; maior na Sardenha"]},
+      {n:["Steppe herders","Pastores da estepe"], v:20, c:"#c9973f", at:3, w:["higher in the north","maior no norte"]},
+      {n:["Eastern Mediterranean","Mediterrâneo oriental"], v:22, c:"#2f5d62", at:7, w:["Greek and Roman eras; higher in the south","épocas grega e romana; maior no sul"]},
+      {n:["Northern European","Norte da Europa"], v:8, c:"#5b3f6e", at:8, w:["early Middle Ages","início da Idade Média"]},
+      {n:["North African","Norte-africana"], v:4, c:"#7a1f1f", at:9, w:["small, mainly Sicily and the south","pequena, sobretudo Sicília e sul"]}
+    ],
+    note:["Illustrative shares only. Ancient-DNA studies of Rome and central Italy show these layers arriving in sequence, but their proportions differ strongly between north, south and Sardinia, so no single set of percentages fits all Italians.",
+          "Proporções apenas ilustrativas. Estudos de DNA antigo de Roma e do centro da Itália mostram essas camadas chegando em sequência, mas suas proporções variam muito entre o norte, o sul e a Sardenha, então nenhum conjunto único de porcentagens vale para todos os italianos."]
+  },
+  quiz:[
+    {a:1, en:{q:"What makes the teeth from Grotta del Cavallo important?", o:["They are the oldest Neanderthal teeth","They are among the oldest modern human remains in Europe","They belonged to Ötzi","They came from a mammoth"], e:"About 45,000 years old, they were first thought Neanderthal but are modern human."},
+          pt:{q:"Por que os dentes da Grotta del Cavallo são importantes?", o:["São os dentes neandertais mais antigos","Estão entre os restos de humanos modernos mais antigos da Europa","Pertenciam a Ötzi","Eram de um mamute"], e:"Com cerca de 45 mil anos, primeiro foram considerados neandertais, mas são de humanos modernos."}},
+    {a:2, en:{q:"Which Italians today are genetically closest to the first farmers?", o:["Lombards","Venetians","Sardinians","Romans"], e:"Sardinia stayed relatively isolated, keeping a high share of early farmer ancestry."},
+          pt:{q:"Quais italianos de hoje são geneticamente mais próximos dos primeiros agricultores?", o:["Lombardos","Vênetos","Sardos","Romanos"], e:"A Sardenha ficou relativamente isolada e manteve uma grande parcela de ancestralidade dos primeiros agricultores."}},
+    {a:0, en:{q:"Where was Ötzi the Iceman found?", o:["In a glacier in the Alps","In a cave in Sicily","In a bog near Rome","Under Pompeii"], e:"Hikers found him in 1991 at 3,210 metres, on the Italian–Austrian border."},
+          pt:{q:"Onde foi encontrado Ötzi, o homem do gelo?", o:["Numa geleira nos Alpes","Numa caverna na Sicília","Num pântano perto de Roma","Debaixo de Pompeia"], e:"Caminhantes o encontraram em 1991, a 3.210 metros, na fronteira entre a Itália e a Áustria."}},
+    {a:3, en:{q:"What did ancient DNA reveal about the Etruscans?", o:["They came from Lydia","They came from Egypt","They were Celts","They were genetically close to their Latin neighbours"], e:"A 2021 study of 82 genomes found no sign of a migration from Anatolia."},
+          pt:{q:"O que o DNA antigo revelou sobre os etruscos?", o:["Vieram da Lídia","Vieram do Egito","Eram celtas","Eram geneticamente próximos de seus vizinhos latinos"], e:"Um estudo de 2021 com 82 genomas não encontrou sinal de migração vinda da Anatólia."}},
+    {a:1, en:{q:"Which city's name means 'new city' in Greek?", o:["Syracuse","Naples","Taranto","Palermo"], e:"Naples comes from the Greek Neapolis."},
+          pt:{q:"O nome de qual cidade significa 'cidade nova' em grego?", o:["Siracusa","Nápoles","Tarento","Palermo"], e:"Nápoles vem do grego Neápolis."}},
+    {a:2, en:{q:"How did Hannibal reach Italy in 218 BC?", o:["By sea from Carthage","Through Sicily","Over the Alps from Spain","From Greece"], e:"He marched from Spain over the Pyrenees and the Alps, with war elephants."},
+          pt:{q:"Como Aníbal chegou à Itália em 218 a.C.?", o:["Por mar, a partir de Cartago","Pela Sicília","Pelos Alpes, vindo da Espanha","Pela Grécia"], e:"Ele marchou da Espanha pelos Pireneus e pelos Alpes, com elefantes de guerra."}},
+    {a:0, en:{q:"Which Italian region is named after a Germanic people?", o:["Lombardy","Tuscany","Apulia","Liguria"], e:"The Lombards invaded in 568 and ruled from Pavia."},
+          pt:{q:"Qual região italiana tem o nome de um povo germânico?", o:["Lombardia","Toscana","Apúlia","Ligúria"], e:"Os lombardos invadiram em 568 e governaram a partir de Pavia."}},
+    {a:3, en:{q:"Where did Garibaldi meet his wife Anita?", o:["In Rome","In Montevideo","In Naples","In Laguna, Santa Catarina, Brazil"], e:"He fought in the Ragamuffin War in southern Brazil in the late 1830s."},
+          pt:{q:"Onde Garibaldi conheceu sua esposa Anita?", o:["Em Roma","Em Montevidéu","Em Nápoles","Em Laguna, Santa Catarina, Brasil"], e:"Ele lutou na Guerra dos Farrapos, no sul do Brasil, no fim dos anos 1830."}},
+    {a:1, en:{q:"About how many Italians emigrated to Brazil?", o:["150,000","1.5 million","6 million","15 million"], e:"About 1.5 million, many to the coffee farms of São Paulo after 1888."},
+          pt:{q:"Cerca de quantos italianos emigraram para o Brasil?", o:["150 mil","1,5 milhão","6 milhões","15 milhões"], e:"Cerca de 1,5 milhão, muitos para as fazendas de café de São Paulo depois de 1888."}},
+    {a:2, en:{q:"Which is the largest foreign community in Italy today?", o:["Albanian","Moroccan","Romanian","Chinese"], e:"Romanians number about a million."},
+          pt:{q:"Qual é hoje a maior comunidade estrangeira na Itália?", o:["Albanesa","Marroquina","Romena","Chinesa"], e:"Os romenos são cerca de um milhão."}}
+  ]
+};
+
+COUNTRIES.italy.eras.forEach(e => { e.places = e.places.filter(pl => Math.hypot(pl.c[0]-e.spot.c[0], pl.c[1]-e.spot.c[1]) > 0.08); });
+
+/* origin charts */
+COUNTRIES.italy.eras[12].origins = {
+  title:["Where they went","Para onde foram"], pct:false,
+  items:[
+    {n:["United States","Estados Unidos"], v:6000000},
+    {n:["France","França"], v:4500000},
+    {n:["Argentina","Argentina"], c:["1850s–1950s","anos 1850–1950"], v:3500000},
+    {n:["Germany","Alemanha"], v:2500000},
+    {n:["Brazil","Brasil"], c:["mostly São Paulo and the South","sobretudo São Paulo e o Sul"], v:1500000, hl:true},
+    {n:["Canada","Canadá"], v:500000}
+  ],
+  note:["Approximate totals of departures over about a century from 1876 (Fondazione Paolo Cresci; Argentina from a separate estimate). About a third of emigrants later returned, and Switzerland and Belgium, also major destinations, are not shown.",
+        "Totais aproximados de partidas em cerca de um século a partir de 1876 (Fondazione Paolo Cresci; Argentina segundo outra estimativa). Cerca de um terço dos emigrantes voltou depois, e a Suíça e a Bélgica, também destinos importantes, não aparecem."]
+};
+COUNTRIES.italy.eras[13].origins = {
+  title:["Largest foreign communities","Maiores comunidades estrangeiras"], pct:false,
+  items:[
+    {n:["Romania","Romênia"], v:1080000},
+    {n:["Albania","Albânia"], v:416829},
+    {n:["Morocco","Marrocos"], v:415088},
+    {n:["China","China"], v:307038},
+    {n:["Ukraine","Ucrânia"], v:249613}
+  ],
+  note:["Foreign residents by citizenship, 2023 (ISTAT data). The total foreign population was about 5.37 million on 1 January 2025. People who have become Italian citizens are not counted.",
+        "Residentes estrangeiros por cidadania, 2023 (dados do ISTAT). O total de estrangeiros era de cerca de 5,37 milhões em 1º de janeiro de 2025. Quem se naturalizou italiano não é contado."]
+};
+
+COUNTRIES.italy.refs = [
+  REF_JEBEL,
+  {ch:[0], t:["Dates obtained for Italy's Altamura Man","Datação do Homem de Altamura, Itália"], s:"Archaeology Magazine, 2015", u:"https://archaeology.org/news/2015/04/03/150403-italy-altamura-man/"},
+  {ch:[0,1], t:["Scientists identify the first known Europeans (Grotta del Cavallo)","Cientistas identificam os primeiros europeus conhecidos (Grotta del Cavallo)"], s:"NBC News, 2011", u:"https://www.nbcnews.com/id/wbna45139048"},
+  {ch:[3], t:["Dark skin, bald head, Anatolian ancestry: the latest findings from the Iceman's genome","Pele escura, careca, ancestralidade anatólia: as novas descobertas do genoma do homem do gelo"], s:"Eurac Research, 2023", u:"https://www.eurac.edu/en/press/dark-skin-bald-head-anatolian-ancestry-the-latest-findings-from-the-icemans-genome"},
+  {ch:[2,3,5,"dna"], t:["Genetic history from the Middle Neolithic to present on the Mediterranean island of Sardinia","História genética da Sardenha, do Neolítico Médio ao presente"], s:"Marcus et al., Nature Communications, 2020 (University of Adelaide repository)", u:"https://digital.library.adelaide.edu.au/dspace/handle/2440/124884"},
+  {ch:[4,7,8,"dna"], t:["The origin and legacy of the Etruscans","A origem e o legado dos etruscos"], s:"Posth et al., Science Advances, 2021 (Phys.org)", u:"https://phys.org/news/2021-09-legacy-etruscans.pdf"},
+  {ch:[2,3,7,"dna"], t:["Ancient Rome: a genetic crossroads of Europe and the Mediterranean","Roma antiga: uma encruzilhada genética da Europa e do Mediterrâneo"], s:"Antonio et al., Science, 2019 (Stanford PDF)", u:"https://web.stanford.edu/group/pritchardlab/publications/Antonio19.pdf"},
+  {ch:[5], t:["Greek colonization: timeline","Colonização grega: cronologia"], s:"World History Encyclopedia", u:"https://worldhistory.org/timeline/Greek_Colonization"},
+  {ch:[8], t:["Kingdom of the Lombards","Reino dos Lombardos"], s:"Wikipedia", u:"https://en.wikipedia.org/wiki/Kingdom_of_the_Lombards"},
+  {ch:[9], t:["History of Islam in southern Italy","História do islã no sul da Itália"], s:"Wikipedia", u:"https://en.wikipedia.org/wiki/History_of_Islam_in_southern_Italy"},
+  {ch:[10], t:["Arbëreshë people","Povo arbëreshë"], s:"Wikipedia", u:"https://en.wikipedia.org/wiki/Arb%C3%ABresh%C3%AB_people"},
+  {ch:[10], t:["History of the Jews in Livorno","História dos judeus em Livorno"], s:"Wikipedia", u:"https://en.wikipedia.org/wiki/History_of_the_Jews_in_Livorno"},
+  {ch:[11], t:["Anita Garibaldi","Anita Garibaldi"], s:"Wikipedia", u:"https://en.wikipedia.org/wiki/Anita_Garibaldi"},
+  {ch:[12], t:["Statistics of Italian emigration","Estatísticas da emigração italiana"], s:"Fondazione Paolo Cresci", u:"https://www.fondazionepaolocresci.it/en/statistics/"},
+  {ch:[12], t:["Italian Argentines","Ítalo-argentinos"], s:"Wikipedia", u:"https://en.wikipedia.org/wiki/Italian_Argentines"},
+  {ch:[12], t:["Escolas comunitárias de imigrantes no Brasil (immigrant totals by nationality, after Carneiro, 1950)","Escolas comunitárias de imigrantes no Brasil (totais de imigrantes por nacionalidade, segundo Carneiro, 1950)"], s:"Kreutz, Revista Brasileira de Educação, 2000 (Redalyc PDF)", u:"https://www.redalyc.org/pdf/275/27501510.pdf"},
+  {ch:[13], t:["Immigration to Italy (ISTAT figures)","Imigração na Itália (dados do ISTAT)"], s:"Wikipedia", u:"https://en.wikipedia.org/wiki/Immigration_to_Italy"}
+];
+
 /* ===================== BRAZIL: ORIGINS IN DETAIL ===================== */
 (() => {
   const B = COUNTRIES.brazil;
@@ -2083,7 +3181,7 @@ COUNTRIES.china.refs = [
 /* =========================================================
    LANGUAGE & STATE
    ========================================================= */
-const ORDER = ["portugal","brazil","china"];
+const ORDER = ["portugal","brazil","china","greece","italy"];
 const store = {
   get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
   set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
@@ -2416,7 +3514,7 @@ function originsHTML(o){
   if (o.rank) body = `<ol class="orank">${o.items.map(it => `<li><b>${t(it.n)}</b>${it.extra ? ` <span>&mdash; ${t(it.extra)}</span>` : ""}</li>`).join("")}</ol>`;
   else {
     const max = Math.max(...o.items.map(i => i.v));
-    body = o.items.map(it => `<div class="orow"><span>${t(it.n)}${it.c ? `<small>${t(it.c)}</small>` : ""}</span><div class="otrack"><div class="obar" style="width:${Math.max(1.5, it.v/max*100).toFixed(1)}%"></div></div><span class="ov" title="${it.v.toLocaleString(lang === "pt" ? "pt-BR" : "en")}">${o.pct ? fmtPct(it.p) : fmtNum(it.v)}</span></div>`).join("");
+    body = o.items.map(it => `<div class="orow${it.hl ? " hl" : ""}"><span>${t(it.n)}${it.c ? `<small>${t(it.c)}</small>` : ""}</span><div class="otrack"><div class="obar" style="width:${Math.max(1.5, it.v/max*100).toFixed(1)}%"></div></div><span class="ov" title="${it.v.toLocaleString(lang === "pt" ? "pt-BR" : "en")}">${o.pct ? fmtPct(it.p) : fmtNum(it.v)}</span></div>`).join("");
   }
   return `<div class="box orig"><h3>${ICON_ORIG}${t(o.title).toUpperCase()}</h3>${body}<div class="note">${t(o.note)}</div></div>`;
 }
@@ -2695,7 +3793,7 @@ fsBtn.onclick = () => {
 /* =========================================================
    BACKGROUND MUSIC  (file "music.mp3" next to index.html)
    ========================================================= */
-const MUSIC = { src:"music.mp3", credit:null /* e.g. {t:"Title, Artist", s:"Licence", u:"https://..."} */ };
+const MUSIC = { src:"music.mp3", credit:{t:["\"Ancient Civ\", by The_Mountain","\"Ancient Civ\", de The_Mountain"], s:"Pixabay (Pixabay Content License)", u:"https://pixabay.com/music/"} };
 const ICON_SND = `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>`;
 const ICON_MUTE = `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg>`;
 const mus = { el:new Audio(), on: store.get("odyssey-music") !== "off", vol: 0.10, ok:true, unlocked:false, fade:null };
